@@ -107,7 +107,6 @@ function Lexer:extractString()
 		local c = self:peek()
 
 		if self:isAtEnd() then
-			-- Error: Unclosed string.
 			local lines = Error.splitLines(self.content)
 
 			Error.show(
