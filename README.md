@@ -127,7 +127,7 @@ while 6 over > do
 end
 ```
 
-### Factorial in Beremiz
+#### Factorial in Beremiz
 
 ```beremiz
 #  A program to calculate the factorial of 5.
