@@ -1,3 +1,5 @@
+local Error = require("src.error")
+
 local Tokens = require("src.token")
 local Token = Tokens.Token
 local TokenType = Tokens.TokenType
@@ -95,7 +97,10 @@ function Lexer:extractNumber()
 end
 
 function Lexer:extractString()
-	self:consume()  -- chop left "
+	local startLine = self.line
+	local startCol = self.col
+
+	self:consume()  -- remove the first quote
 	local start = self.current
 
 	while true do
@@ -103,6 +108,14 @@ function Lexer:extractString()
 
 		if self:isAtEnd() then
 			-- Error: Unclosed string.
+			local lines = Error.splitLines(self.content)
+
+			Error.show(
+				"Error: Unclosed string.",
+				{loc={file=self.file, line=startLine, col=startCol-1}},
+				lines
+			)
+
 			break
 		end
 
