@@ -1,0 +1,11 @@
+# Print all even numbers between 0 and 100.
+
+100
+
+while dup 0 > do
+    dup 2 % 0 = if
+        dup show
+    end
+
+    1 -
+end
