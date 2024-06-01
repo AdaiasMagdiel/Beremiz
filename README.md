@@ -15,8 +15,8 @@ Ensure you have Lua installed on your system. You can download it from the [offi
 Clone this repository locally:
 
 ```bash
-git clone https://github.com/AdaiasMagdiel/beremiz-lua.git
-cd beremiz-lua
+git clone https://github.com/AdaiasMagdiel/beremiz.git
+cd beremiz
 ```
 
 ### Running Beremiz Code
