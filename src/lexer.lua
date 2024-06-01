@@ -169,6 +169,9 @@ function Lexer:scan()
 				["while"] = TokenType.WHILE,
 				["do"]    = TokenType.DO,
 				["end"]   = TokenType.END,
+				["over"]  = TokenType.OVER,
+				["swap"]  = TokenType.SWAP,
+				["drop"]  = TokenType.DROP,
 			}
 
 			local type = nil
@@ -216,7 +219,7 @@ function Lexer:scan()
 							["/"]=TokenType.SLASH,
 							[">"]=TokenType.GREATER,
 							["="]=TokenType.EQUAL,
-							["%"]=TokenType.MODULE,
+							["%"]=TokenType.MOD,
 						})[c]
 
 			self.tokens[#self.tokens+1] = Token.new(type, c)
