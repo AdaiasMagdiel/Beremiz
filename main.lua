@@ -43,7 +43,7 @@ local function runFile(filepath)
 	local content = file:read('*a')
 	file:close()
 
-	local lexer = Lexer:new(content)
+	local lexer = Lexer:new(filepath, content)
 	lexer.debug = false
 	local tokens = lexer:scan()
 	-- print(tokens)

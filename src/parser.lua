@@ -38,7 +38,7 @@ function Parser.crossref(tokens)
 
 		elseif token.type == TokenType.ELSE then
 			local ip_if = pop(ip_stack)
-			tokens[ip_if].ip_end = ip
+			tokens[ip_if].jump_ip = ip
 
 			push(ip_stack, ip)
 
@@ -54,10 +54,10 @@ function Parser.crossref(tokens)
 			if tokens[ip_block].type == TokenType.DO then
 				local ip_while = pop(ip_stack)
 
-				tokens[ip].ip_end = ip_while
+				tokens[ip].jump_ip = ip_while
 			end
 
-			tokens[ip_block].ip_end = ip
+			tokens[ip_block].jump_ip = ip
 
 		end
 	end
@@ -92,6 +92,25 @@ function Parser:parse()
 			local a = pop(self.stack)
 
 			if token.type == TokenType.PLUS then
+				local type_a = type(a)
+				local type_b = type(b)
+
+				local function typeError()
+					io.write(
+						("%s:%d:%d Error: Attempt to add a '%s' with a '%s'.\n")
+						:format(token.loc.file, token.loc.line, token.loc.col, type(a), type(b))
+					)
+					os.exit(1)
+				end
+
+				local function isValidType(t)
+					return t == "number" or t == "string"
+				end
+
+				if not isValidType(type_a) or not isValidType(type_b) or type_a ~= type_b then
+				    typeError()
+				end
+
 				push(self.stack, a + b)
 			elseif token.type == TokenType.MINUS then
 				push(self.stack, a - b)
@@ -117,22 +136,22 @@ function Parser:parse()
 			local cond = pop(self.stack)
 
 			if cond == 0 then
-				ip = token.ip_end
+				ip = token.jump_ip
 			end
 
 		elseif token.type == TokenType.ELSE then
-			ip = token.ip_end
+			ip = token.jump_ip
 
 		elseif token.type == TokenType.DO then
 			local cond = pop(self.stack)
 
 			if cond == 0 then
-				ip = token.ip_end
+				ip = token.jump_ip
 			end
 
 		elseif token.type == TokenType.END then
-			if token.ip_end ~= nil then
-				ip = token.ip_end
+			if token.jump_ip ~= nil then
+				ip = token.jump_ip
 			end
 
 		elseif token.type == TokenType.OVER then

@@ -30,17 +30,28 @@ local TokenType = {
 
 local Token = {}
 
-function Token.new(type, value)
+function Token.new(type, value, loc)
 	return {
 		type=type,
 		value=value,
-		ip_end=nil
+		loc=loc,
+		jump_ip=nil,
 	}
 end
 
 
 
+local function Loc(file, line, col)
+	return {
+		file = file,
+		line = line,
+		col = col
+	}
+end
+
+
 return {
 	Token=Token,
-	TokenType=TokenType
+	TokenType=TokenType,
+	Loc=Loc
 }

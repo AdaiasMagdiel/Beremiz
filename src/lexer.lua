@@ -1,8 +1,12 @@
 local Tokens = require("src.token")
 local Token = Tokens.Token
 local TokenType = Tokens.TokenType
+local Loc = Tokens.Loc
 
 local Lexer = {
+	file = "",
+	line = 1,
+	col = 1,
 	current = 1,
 	content = "",
 	tokens  = {}
@@ -10,8 +14,12 @@ local Lexer = {
 Lexer.__index = Lexer
 Lexer.debug = true
 
-function Lexer:new(content)
+function Lexer:new(filepath, content)
 	local obj = setmetatable({}, Lexer)
+
+	obj.file = filepath
+	obj.line = 1
+	obj.col = 1
 
 	obj.current = 1
 	obj.content = content or ""
@@ -29,6 +37,7 @@ function Lexer:consume()
 
 	local char = self.content:sub(self.current, self.current)
 	self.current = self.current + 1
+	self.col = self.col + 1
 
 	return char
 end
@@ -97,6 +106,11 @@ function Lexer:extractString()
 			break
 		end
 
+		if c == "\n" then
+			self.line = self.line + 1
+			self.col = 1
+		end
+
 		if c == '"' then
 			if self:previous() ~= '\\' then
 				break
@@ -137,12 +151,21 @@ function Lexer:scan()
 	while not self:isAtEnd() do
 		local c = self:peek()
 
+		-- New Line
+		if c == "\n" then
+			self.line = self.line + 1
+			self.col = 1
+
 		-- Numbers
-		if	self.isNumber(c) or
+		elseif	self.isNumber(c) or
 			(c == '.' and self.isNumber(self:next()))  -- numbers like: .2, .42
 		then
 			local value = self:extractNumber()
-			self.tokens[#self.tokens+1] = Token.new(TokenType.NUMBER, value)
+			self.tokens[#self.tokens+1] = Token.new(
+				TokenType.NUMBER,
+				value,
+				Loc(self.file, self.line, self.col)
+			)
 
 			if self.debug then
 				io.write('Lexer->scan->isNumber(c): ', value, '\n')
@@ -151,7 +174,11 @@ function Lexer:scan()
 		-- Strings
 		elseif c == '"' then
 			local value = self:extractString()
-			self.tokens[#self.tokens+1] = Token.new(TokenType.STRING, value)
+			self.tokens[#self.tokens+1] = Token.new(
+				TokenType.STRING,
+				value,
+				Loc(self.file, self.line, self.col-#value)
+			)
 
 			if self.debug then
 				io.write('Lexer->scan->isString(c): ', value, '\n')
@@ -181,7 +208,11 @@ function Lexer:scan()
 				type = TokenType.IDENTIFIER
 			end
 
-			self.tokens[#self.tokens+1] = Token.new(type, value)
+			self.tokens[#self.tokens+1] = Token.new(
+				type,
+				value,
+				Loc(self.file, self.line, self.col-#value)
+			)
 
 			if self.debug then
 				io.write('Lexer->scan->isIdentifier(c): ', value, '\n')
@@ -222,7 +253,11 @@ function Lexer:scan()
 							["%"]=TokenType.MOD,
 						})[c]
 
-			self.tokens[#self.tokens+1] = Token.new(type, c)
+			self.tokens[#self.tokens+1] = Token.new(
+				type,
+				c,
+				Loc(self.file, self.line, self.col-1)
+			)
 
 			if self.debug then
 				io.write('Lexer->scan->isOperator(c): ', c, '\n')
@@ -232,7 +267,11 @@ function Lexer:scan()
 		self:consume()
 	end
 
-	self.tokens[#self.tokens+1] = Token.new(TokenType.EOF, '')
+	self.tokens[#self.tokens+1] = Token.new(
+		TokenType.EOF,
+		'',
+		Loc(self.file, self.line, self.col)
+	)
 
 	return self.tokens
 end
