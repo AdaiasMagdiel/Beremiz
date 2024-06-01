@@ -103,7 +103,7 @@ function Parser:parse()
 				push(self.stack, a > b and 1 or 0)
 			elseif token.type == TokenType.EQUAL then
 				push(self.stack, a == b and 1 or 0)
-			elseif token.type == TokenType.MODULE then
+			elseif token.type == TokenType.MOD then
 				push(self.stack, a % b)
 			end
 
