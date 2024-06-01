@@ -8,7 +8,7 @@ local TokenType = {
 	SLASH   = "SLASH",
 	GREATER = "GREATER",
 	EQUAL   = "EQUAL",
-	MODULE   = "MODULE",
+	MOD     = "MOD",
 
 	IDENTIFIER = "IDENTIFIER",
 	SHOW       = "SHOW",
@@ -18,6 +18,10 @@ local TokenType = {
 	WHILE      = "WHILE",
 	DO         = "DO",
 	END        = "END",
+
+	OVER = "OVER",
+	DROP = "DROP",
+	SWAP = "SWAP",
 
 	EOF = "EOF",
 }
