@@ -1,0 +1,12 @@
+#  A program to calculate the factorial of 5.
+
+5 1
+
+while over 0 > do
+    over *
+    swap 1 -
+    swap
+end
+
+swap drop
+show
