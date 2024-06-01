@@ -1,12 +1,13 @@
 local pprint = require("lib.pprint")
 
+local Error = require("src.error")
 local Tokens = require("src.token")
-local Token = Tokens.Token
 local TokenType = Tokens.TokenType
 
 local Parser = {
 	program = {},
-	stack = {}
+	stack = {},
+	lines = {}
 }
 
 Parser.__index = Parser
@@ -20,11 +21,12 @@ local function pop(stack)
 	return table.remove(stack, #stack)
 end
 
-function Parser:new(tokens)
+function Parser:new(tokens, raw)
 	local obj = setmetatable({}, Parser)
 
 	obj.program = self.crossref(tokens)
 	obj.stack = {}
+	obj.lines = Error.splitLines(raw)
 
 	return obj
 end
@@ -91,39 +93,79 @@ function Parser:parse()
 			local b = pop(self.stack)
 			local a = pop(self.stack)
 
+			local type_a = type(a)
+			local type_b = type(b)
+
 			if token.type == TokenType.PLUS then
-				local type_a = type(a)
-				local type_b = type(b)
-
-				local function typeError()
-					io.write(
-						("%s:%d:%d Error: Attempt to add a '%s' with a '%s'.\n")
-						:format(token.loc.file, token.loc.line, token.loc.col, type(a), type(b))
-					)
-					os.exit(1)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a + b)
+				elseif type_a == "string" and type_b == "string" then
+					push(self.stack, a .. b)
+				else
+					Error.show(
+				    	("Error: Attempt to add a '%s' with a '%s'."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
 				end
 
-				local function isValidType(t)
-					return t == "number" or t == "string"
-				end
-
-				if not isValidType(type_a) or not isValidType(type_b) or type_a ~= type_b then
-				    typeError()
-				end
-
-				push(self.stack, a + b)
 			elseif token.type == TokenType.MINUS then
-				push(self.stack, a - b)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a - b)
+				else
+					Error.show(
+				    	("Error: Attempt to sub a '%s' with a '%s'."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
+				end
+
 			elseif token.type == TokenType.STAR then
-				push(self.stack, a * b)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a * b)
+				else
+					Error.show(
+				    	("Error: Attempt to mul a '%s' with a '%s'."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
+				end
+
 			elseif token.type == TokenType.SLASH then
-				push(self.stack, a / b)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a / b)
+				else
+					Error.show(
+				    	("Error: Attempt to div a '%s' with a '%s'."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
+				end
+
 			elseif token.type == TokenType.GREATER then
-				push(self.stack, a > b and 1 or 0)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a > b)
+				else
+					Error.show(
+				    	("Error: Attempt to compare %s with %s."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
+				end
+
 			elseif token.type == TokenType.EQUAL then
 				push(self.stack, a == b and 1 or 0)
+
 			elseif token.type == TokenType.MOD then
-				push(self.stack, a % b)
+				if type_a == "number" and type_b == "number" then
+					push(self.stack, a % b)
+				else
+					Error.show(
+				    	("Error: Attempt to mod a '%s' with a '%s'."):format(type_a, type_b),
+				    	token,
+				    	self.lines
+				    )
+				end
 			end
 
 		elseif token.type == TokenType.DUP then
