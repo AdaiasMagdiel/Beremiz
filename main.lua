@@ -1,6 +1,5 @@
 local pprint = require("lib.pprint")
 
-local Tokens = require('src.token')
 local Parser = require('src.parser')
 local Lexer = require("src.lexer")
 
@@ -46,9 +45,8 @@ local function runFile(filepath)
 	local lexer = Lexer:new(filepath, content)
 	lexer.debug = false
 	local tokens = lexer:scan()
-	-- print(tokens)
 
-	local parser = Parser:new(tokens)
+	local parser = Parser:new(tokens, content)
 	parser:parse()
 end
 
