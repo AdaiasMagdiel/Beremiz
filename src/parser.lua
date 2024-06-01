@@ -86,7 +86,7 @@ function Parser:parse()
 			token.type == TokenType.SLASH   or
 			token.type == TokenType.GREATER or
 			token.type == TokenType.EQUAL   or
-			token.type == TokenType.MODULE
+			token.type == TokenType.MOD
 		then
 			local b = pop(self.stack)
 			local a = pop(self.stack)
@@ -134,6 +134,24 @@ function Parser:parse()
 			if token.ip_end ~= nil then
 				ip = token.ip_end
 			end
+
+		elseif token.type == TokenType.OVER then
+			local a = pop(self.stack)
+			local b = pop(self.stack)
+
+			push(self.stack, b)
+			push(self.stack, a)
+			push(self.stack, b)
+
+		elseif token.type == TokenType.SWAP then
+			local a = pop(self.stack)
+			local b = pop(self.stack)
+
+			push(self.stack, a)
+			push(self.stack, b)
+
+		elseif token.type == TokenType.DROP then
+			pop(self.stack)
 
 		elseif token.type == TokenType.SHOW then
 			local value = pop(self.stack)
