@@ -154,7 +154,7 @@ function Parser:parse()
 				end
 
 			elseif token.type == TokenType.EQUAL then
-				push(self.stack, a == b and 1 or 0)
+				push(self.stack, a == b)
 
 			elseif token.type == TokenType.MOD then
 				if type_a == "number" and type_b == "number" then
@@ -177,7 +177,7 @@ function Parser:parse()
 		elseif token.type == TokenType.IF then
 			local cond = pop(self.stack)
 
-			if cond == 0 then
+			if not cond then
 				ip = token.jump_ip
 			end
 
@@ -187,7 +187,7 @@ function Parser:parse()
 		elseif token.type == TokenType.DO then
 			local cond = pop(self.stack)
 
-			if cond == 0 then
+			if not cond then
 				ip = token.jump_ip
 			end
 
