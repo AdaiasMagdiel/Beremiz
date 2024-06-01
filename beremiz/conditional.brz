@@ -1,0 +1,8 @@
+1 1 +
+2 =
+
+if
+    "Equal" show
+else
+    "Not equal" show
+end
