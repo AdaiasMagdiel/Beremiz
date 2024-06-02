@@ -18,6 +18,7 @@ local TokenType = {
 	WHILE      = "WHILE",
 	DO         = "DO",
 	END        = "END",
+	DEFINE     = "DEFINE",
 
 	OVER = "OVER",
 	DROP = "DROP",

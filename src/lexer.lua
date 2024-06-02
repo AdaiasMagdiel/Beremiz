@@ -201,16 +201,17 @@ function Lexer:scan()
 			local value = self:extractIdentifier()
 
 			local identifiers = {
-				["show"]  = TokenType.SHOW,
-				["if"]    = TokenType.IF,
-				["else"]  = TokenType.ELSE,
-				["dup"]   = TokenType.DUP,
-				["while"] = TokenType.WHILE,
-				["do"]    = TokenType.DO,
-				["end"]   = TokenType.END,
-				["over"]  = TokenType.OVER,
-				["swap"]  = TokenType.SWAP,
-				["drop"]  = TokenType.DROP,
+				["show"]   = TokenType.SHOW,
+				["if"]     = TokenType.IF,
+				["else"]   = TokenType.ELSE,
+				["dup"]    = TokenType.DUP,
+				["while"]  = TokenType.WHILE,
+				["do"]     = TokenType.DO,
+				["end"]    = TokenType.END,
+				["define"] = TokenType.DEFINE,
+				["over"]   = TokenType.OVER,
+				["swap"]   = TokenType.SWAP,
+				["drop"]   = TokenType.DROP,
 			}
 
 			local type = nil

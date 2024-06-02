@@ -7,7 +7,8 @@ local TokenType = Tokens.TokenType
 local Parser = {
 	program = {},
 	stack = {},
-	lines = {}
+	lines = {},
+	global = {}
 }
 
 Parser.__index = Parser
@@ -24,14 +25,80 @@ end
 function Parser:new(tokens, raw)
 	local obj = setmetatable({}, Parser)
 
-	obj.program = self.crossref(tokens)
-	obj.stack = {}
 	obj.lines = Error.splitLines(raw)
+	obj.stack = {}
+	obj.global = {}
+
+	tokens = self:expand_tokens(tokens)
+	tokens = self:crossref(tokens)
+
+	obj.program = tokens
 
 	return obj
 end
 
-function Parser.crossref(tokens)
+function Parser:expand_tokens(tokens)
+	local ip = 1
+
+	while true do
+		local token = tokens[ip]
+
+		if token.type == TokenType.EOF or ip > #tokens then
+			break
+		end
+
+		if token.type == TokenType.DEFINE then
+			local inner_tokens = {}
+
+			-- Remove the DEFINE token
+			table.remove(tokens, ip)
+
+			-- Get the define name and go to the next token
+			local name = tokens[ip]
+			table.remove(tokens, ip)
+
+			while true do
+				local inner_token = tokens[ip]
+
+				-- Remove the END token
+				if inner_token.type == TokenType.END then
+					table.remove(tokens, ip)
+					ip = ip - 1
+					break
+				end
+
+				if inner_token.type == TokenType.EOF then
+					assert(false, "Not Implemented: Define don't has END token")
+					break
+				end
+
+				inner_tokens[#inner_tokens + 1] = table.remove(tokens, ip)
+			end
+
+			self.global[name.value] = inner_tokens
+
+		elseif token.type == TokenType.IDENTIFIER then
+			local id_tokens = self.global[token.value]
+
+			if id_tokens == nil then
+				assert(false, "Not Implemented: Unknown identifier.")
+			end
+
+			for _, tok in ipairs(id_tokens) do
+				table.insert(tokens, ip, tok)
+				ip = ip + 1
+			end
+
+			table.remove(tokens, ip)
+		end
+
+		ip = ip + 1
+	end
+
+	return tokens
+end
+
+function Parser:crossref(tokens)
 	local ip_stack = {}
 
 	for ip, token in ipairs(tokens) do
