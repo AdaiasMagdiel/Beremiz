@@ -147,6 +147,10 @@ function Lexer:extractIdentifier()
 	while true do
 		local c = self:peek()
 
+		if c == nil then
+			break
+		end
+
 		if not self.isAlphaNum(c) then
 			break
 		end
