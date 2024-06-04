@@ -44,7 +44,7 @@ function Error.show(message, token, lines)
 	local offset = 5
 
 	local nextSpaceCol = getNextSpace(lineCol, line)
-	local under = ("~"):rep(nextSpaceCol - lineCol)
+	local under = ("~"):rep(#tostring(token.value or "_"))
 
 	io.write(("%s%s\n"):format(errorInfo, line))
 	io.write(
