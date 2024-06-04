@@ -111,7 +111,7 @@ function Parser:parse()
 				for delim in string.gmatch(token.value, pattern) do
 					local value = tonumber(delim)
 
-					table.insert(delims, value)
+					delims[#delims+1] = value
 				end
 
 				table.sort(delims, function(a, b) return a < b end)
