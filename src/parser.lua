@@ -76,7 +76,7 @@ function Parser:crossref(tokens)
 				tokens[ip].jump_ip = ip_while
 			end
 
-			tokens[ip_block].jump_ip = ip
+			tokens[ip_block].jump_ip = ip+1
 		end
 	end
 
@@ -218,6 +218,9 @@ function Parser:parse()
 				ip = ip + 1
 			end
 
+		elseif token.type == TokenType.WHILE then
+			ip = ip + 1
+
 		elseif token.type == TokenType.END then
 			local returnTo = pop(returns)
 
@@ -255,12 +258,11 @@ function Parser:parse()
 
 		elseif token.type == TokenType.SHOW then
 			local value = pop(self.stack)
-			io.write(value, '\n')
+			io.write(tostring(value), '\n')
 			ip = ip + 1
 
 		elseif token.type == TokenType.DEFINE then
 			ip = token.jump_ip
-			ip = ip + 1
 
 		elseif token.type == TokenType.IDENTIFIER then
 			local ipToJump = self.defines[token.value]
