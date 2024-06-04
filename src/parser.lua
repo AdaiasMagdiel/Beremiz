@@ -94,11 +94,50 @@ function Parser:parse()
 			break
 		end
 
-		if
-			token.type == TokenType.STRING or
-			token.type == TokenType.NUMBER
-		then
+		if token.type == TokenType.NUMBER then
 			push(self.stack, token.value)
+			ip = ip + 1
+
+		elseif token.type == TokenType.STRING then
+			-- Unlike Lua, string interpolations are 0-based
+			local pattern = "[^\\]$(%d+)"   -- Match $1, $42, $890, ... with escape \$
+
+			if not token.value:find(pattern) then
+				push(self.stack, token.value)
+
+			else
+				local delims = {}
+
+				for delim in string.gmatch(token.value, pattern) do
+					local value = tonumber(delim)
+
+					table.insert(delims, value)
+				end
+
+				table.sort(delims, function(a, b) return a < b end)
+
+				local max = delims[#delims]
+				if max+1 > #self.stack then
+					Error.show(
+						("Error: Attempted to interpolate element at index %d, but the stack only contains %d elements."):format(max, #delims),
+						token,
+						self.lines
+					)
+				end
+
+				local values = {}
+				for _ = 1,max+1 do
+					values[#values+1] = pop(self.stack)
+				end
+
+				local newString = token.value:gsub("([^\\]%$)(%d+)",
+				function(_, str)
+					return " " .. values[tonumber(str)+1]
+				end)
+
+				push(self.stack, newString)
+			end
+
 			ip = ip + 1
 
 		elseif
