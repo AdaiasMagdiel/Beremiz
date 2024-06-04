@@ -151,6 +151,11 @@ function Lexer:extractIdentifier()
 			break
 		end
 
+		if c == "\n" then
+			self.line = self.line + 1
+			self.col = 1
+		end
+
 		if not self.isAlphaNum(c) then
 			break
 		end
@@ -168,7 +173,9 @@ function Lexer:scan()
 		local c = self:peek()
 
 		-- New Line
-		if c == "\n" then
+		if c == "\n" or
+		   (c == "\r" and self:next() == "\n")
+		then
 			self.line = self.line + 1
 			self.col = 1
 
