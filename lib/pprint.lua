@@ -31,6 +31,11 @@ local function pprint_rec(tbl, level)
 end
 
 local function pprint(tbl)
+	if (type(tbl) ~= "table") then
+		print(tbl)
+		return
+	end
+	
 	pprint_rec(tbl, 0)
 end
 
