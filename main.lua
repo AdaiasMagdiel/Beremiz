@@ -26,8 +26,12 @@ local function runPrompt()
 			break
 		end
 
-		local tokens = Lexer:new(input):scan()
-		pprint(tokens)
+		local lexer = Lexer:new("repl", input)
+		lexer.debug = false
+		local tokens = lexer:scan()
+
+		local parser = Parser:new(tokens, input)
+		parser:parse()
 	end
 end
 
