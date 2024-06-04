@@ -8,7 +8,7 @@ local Parser = {
 	program = {},
 	stack = {},
 	lines = {},
-	global = {}
+	defines = {}
 }
 
 Parser.__index = Parser
@@ -27,82 +27,32 @@ function Parser:new(tokens, raw)
 
 	obj.lines = Error.splitLines(raw)
 	obj.stack = {}
-	obj.global = {}
-
-	tokens = self:expand_tokens(tokens)
-	tokens = self:crossref(tokens)
-
-	obj.program = tokens
+	obj.defines = {}
+	obj.program = obj:crossref(tokens)
 
 	return obj
-end
-
-function Parser:expand_tokens(tokens)
-	local ip = 1
-
-	while true do
-		local token = tokens[ip]
-
-		if token.type == TokenType.EOF or ip > #tokens then
-			break
-		end
-
-		if token.type == TokenType.DEFINE then
-			local inner_tokens = {}
-
-			-- Remove the DEFINE token
-			table.remove(tokens, ip)
-
-			-- Get the define name and go to the next token
-			local name = tokens[ip]
-			table.remove(tokens, ip)
-
-			while true do
-				local inner_token = tokens[ip]
-
-				-- Remove the END token
-				if inner_token.type == TokenType.END then
-					table.remove(tokens, ip)
-					ip = ip - 1
-					break
-				end
-
-				if inner_token.type == TokenType.EOF then
-					assert(false, "Not Implemented: Define don't has END token")
-					break
-				end
-
-				inner_tokens[#inner_tokens + 1] = table.remove(tokens, ip)
-			end
-
-			self.global[name.value] = inner_tokens
-
-		elseif token.type == TokenType.IDENTIFIER then
-			local id_tokens = self.global[token.value]
-
-			if id_tokens == nil then
-				assert(false, "Not Implemented: Unknown identifier.")
-			end
-
-			for _, tok in ipairs(id_tokens) do
-				table.insert(tokens, ip, tok)
-				ip = ip + 1
-			end
-
-			table.remove(tokens, ip)
-		end
-
-		ip = ip + 1
-	end
-
-	return tokens
 end
 
 function Parser:crossref(tokens)
 	local ip_stack = {}
 
 	for ip, token in ipairs(tokens) do
-		if token.type == TokenType.IF then
+		if token.type == TokenType.DEFINE then
+			local tokenName = tokens[ip+1]
+
+			if tokenName.type ~= TokenType.IDENTIFIER then
+				Error.show(
+					("Expected 'identifier' but got '%s'."):format(tokenName.type:lower()),
+					tokenName,
+					self.lines
+				)
+			end
+
+			self.defines[tokenName.value] = ip+2 -- after define name
+
+			push(ip_stack, ip)
+
+		elseif token.type == TokenType.IF then
 			push(ip_stack, ip)
 
 		elseif token.type == TokenType.ELSE then
@@ -127,7 +77,6 @@ function Parser:crossref(tokens)
 			end
 
 			tokens[ip_block].jump_ip = ip
-
 		end
 	end
 
@@ -136,8 +85,11 @@ end
 
 function Parser:parse()
 	local ip = 1
+	local returns = {}
+
 	while true do
 		local token = self.program[ip]
+
 		if token.type == TokenType.EOF then
 			break
 		end
@@ -147,6 +99,7 @@ function Parser:parse()
 			token.type == TokenType.NUMBER
 		then
 			push(self.stack, token.value)
+			ip = ip + 1
 
 		elseif
 			token.type == TokenType.PLUS    or
@@ -162,6 +115,8 @@ function Parser:parse()
 
 			local type_a = type(a)
 			local type_b = type(b)
+
+			ip = ip + 1
 
 			if token.type == TokenType.PLUS then
 				if type_a == "number" and type_b == "number" then
@@ -240,12 +195,15 @@ function Parser:parse()
 
 			push(self.stack, value)
 			push(self.stack, value)
+			ip = ip + 1
 
 		elseif token.type == TokenType.IF then
 			local cond = pop(self.stack)
 
 			if not cond then
 				ip = token.jump_ip
+			else
+				ip = ip + 1
 			end
 
 		elseif token.type == TokenType.ELSE then
@@ -256,11 +214,22 @@ function Parser:parse()
 
 			if not cond then
 				ip = token.jump_ip
+			else
+				ip = ip + 1
 			end
 
 		elseif token.type == TokenType.END then
-			if token.jump_ip ~= nil then
+			local returnTo = pop(returns)
+
+			if returnTo ~= nil then
+				ip = returnTo
+
+			elseif token.jump_ip ~= nil then
 				ip = token.jump_ip
+
+			else
+				-- TODO: Maybe this is a error
+				ip = ip + 1
 			end
 
 		elseif token.type == TokenType.OVER then
@@ -270,6 +239,7 @@ function Parser:parse()
 			push(self.stack, b)
 			push(self.stack, a)
 			push(self.stack, b)
+			ip = ip + 1
 
 		elseif token.type == TokenType.SWAP then
 			local a = pop(self.stack)
@@ -277,16 +247,36 @@ function Parser:parse()
 
 			push(self.stack, a)
 			push(self.stack, b)
+			ip = ip + 1
 
 		elseif token.type == TokenType.DROP then
 			pop(self.stack)
+			ip = ip + 1
 
 		elseif token.type == TokenType.SHOW then
 			local value = pop(self.stack)
 			io.write(value, '\n')
-		end
+			ip = ip + 1
 
-		ip = ip + 1
+		elseif token.type == TokenType.DEFINE then
+			ip = token.jump_ip
+			ip = ip + 1
+
+		elseif token.type == TokenType.IDENTIFIER then
+			local ipToJump = self.defines[token.value]
+
+			if ipToJump == nil then
+				Error.show(
+					("Undefined identifier '%s'."):format(token.value),
+					token,
+					self.lines
+				)
+			end
+
+			push(returns, ip+1)
+			ip = ipToJump
+
+		end
 	end
 end
 
