@@ -1,0 +1,6 @@
+define dupl 2 * end
+
+define num1 1 end
+define num2 2 end
+
+num1 num2 + dupl show
