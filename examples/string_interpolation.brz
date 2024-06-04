@@ -1,0 +1,6 @@
+define dup2
+	over over
+end
+
+30 25 dup2 +
+"Num1: $2 | Num2: $1 | $2 + $1 = $0" show
