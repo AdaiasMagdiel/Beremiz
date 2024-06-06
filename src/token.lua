@@ -14,12 +14,12 @@ local TokenType = {
 	SHOW       = "SHOW",
 	IF         = "IF",
 	ELSE       = "ELSE",
-	DUP        = "DUP",
 	WHILE      = "WHILE",
 	DO         = "DO",
 	END        = "END",
 	DEFINE     = "DEFINE",
 
+	DUP  = "DUP",
 	OVER = "OVER",
 	DROP = "DROP",
 	SWAP = "SWAP",
