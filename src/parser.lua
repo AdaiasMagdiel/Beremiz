@@ -295,6 +295,11 @@ function Parser:parse()
 			pop(self.stack)
 			ip = ip + 1
 
+		elseif token.type == TokenType.DUMPSTACK then
+			local stack = table.concat(self.stack, ", ")
+			io.write("[STACK]: ["..stack.."]\n")
+			ip = ip + 1
+
 		elseif token.type == TokenType.SHOW then
 			local value = pop(self.stack)
 			io.write(tostring(value), '\n')

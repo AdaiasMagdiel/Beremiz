@@ -261,14 +261,16 @@ function Lexer:scan()
 				["show"]   = TokenType.SHOW,
 				["if"]     = TokenType.IF,
 				["else"]   = TokenType.ELSE,
-				["dup"]    = TokenType.DUP,
 				["while"]  = TokenType.WHILE,
 				["do"]     = TokenType.DO,
 				["end"]    = TokenType.END,
 				["define"] = TokenType.DEFINE,
-				["over"]   = TokenType.OVER,
-				["swap"]   = TokenType.SWAP,
-				["drop"]   = TokenType.DROP,
+
+				["dup"]       = TokenType.DUP,
+				["over"]      = TokenType.OVER,
+				["drop"]      = TokenType.DROP,
+				["swap"]      = TokenType.SWAP,
+				["dumpstack"] = TokenType.DUMPSTACK,
 			}
 
 			local type = nil

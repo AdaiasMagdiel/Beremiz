@@ -19,10 +19,11 @@ local TokenType = {
 	END        = "END",
 	DEFINE     = "DEFINE",
 
-	DUP  = "DUP",
-	OVER = "OVER",
-	DROP = "DROP",
-	SWAP = "SWAP",
+	DUP       = "DUP",
+	OVER      = "OVER",
+	DROP      = "DROP",
+	SWAP      = "SWAP",
+	DUMPSTACK = "DUMPSTACK",
 
 	EOF = "EOF",
 }
