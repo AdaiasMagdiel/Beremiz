@@ -168,14 +168,60 @@ function Lexer:extractIdentifier()
 	return value
 end
 
+function Lexer:removeComments()
+	-- os.exit(1)
+	self:consume()  -- Remove #
+
+	-- Multi-line
+	if self:peek() == "[" then
+		self:consume()  -- Remove [
+
+		while true do
+			local c = self:peek()
+
+			if c == nil or self:isAtEnd() then
+				break
+			end
+
+			if c == "\n" then
+				self.line = self.line + 1
+				self.col = 1
+			end
+
+			if self:peek() == "]" and self:next() == "#" then
+				self:consume()
+				self:consume()
+
+				if self:peek() == "\n" then
+					self.line = self.line + 1
+					self.col = 1
+				end
+
+				break
+			end
+
+			self:consume()
+		end
+	else
+		while self:peek() ~= "\n" do
+			if self:peek() == nil or self:isAtEnd() then
+				break
+			end
+
+			self:consume()
+		end
+
+		self.line = self.line + 1
+		self.col = 1
+	end
+end
+
 function Lexer:scan()
 	while not self:isAtEnd() do
 		local c = self:peek()
 
 		-- New Line
-		if c == "\n" or
-		   (c == "\r" and self:next() == "\n")
-		then
+		if c == "\n" then
 			self.line = self.line + 1
 			self.col = 1
 
@@ -244,19 +290,7 @@ function Lexer:scan()
 
 		-- Comments
 		elseif c == "#" then
-			if self:next() == '[' then
-				while true do
-					self:consume()
-
-					if self:peek() == ']' and self:next() == '#' then
-						self:consume()
-						break
-					end
-				end
-
-			else
-				while self:consume() ~= '\n' do end
-			end
+			self:removeComments()
 
 		elseif
 			c == "+" or
