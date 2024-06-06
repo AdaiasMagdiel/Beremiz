@@ -100,7 +100,7 @@ function Parser:parse()
 
 		elseif token.type == TokenType.STRING then
 			-- Unlike Lua, string interpolations are 0-based
-			local pattern = "[^\\]$(%d+)"   -- Match $1, $42, $890, ... with escape \$
+			local pattern = "[^\\]?%$(%d+)"   -- Match $1, $42, $890, ... with escape \$
 
 			if not token.value:find(pattern) then
 				push(self.stack, token.value)
@@ -130,9 +130,9 @@ function Parser:parse()
 					values[#values+1] = pop(self.stack)
 				end
 
-				local newString = token.value:gsub("([^\\]%$)(%d+)",
-				function(_, str)
-					return " " .. values[tonumber(str)+1]
+				local newString = token.value:gsub(pattern,
+				function(str)
+					return " " .. tostring(values[tonumber(str)+1])
 				end)
 
 				push(self.stack, newString)
