@@ -208,7 +208,7 @@ function Parser:parse()
 					push(self.stack, a > b)
 				else
 					Error.show(
-				    	("Error: Attempt to compare %s with %s."):format(type_a, type_b),
+				    	("Error: Attempt to compare '%s' with '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
