@@ -1,14 +1,16 @@
 local TokenType = {
 	NUMBER = "NUMBER",
 	STRING = "STRING",
+	NIL    = "NIL",
 
 	PLUS    = "PLUS",
 	MINUS   = "MINUS",
 	STAR    = "STAR",
 	SLASH   = "SLASH",
+	MOD     = "MOD",
 	GREATER = "GREATER",
 	EQUAL   = "EQUAL",
-	MOD     = "MOD",
+	NEQUAL  = "NEQUAL",
 
 	IDENTIFIER = "IDENTIFIER",
 	SHOW       = "SHOW",
