@@ -168,6 +168,15 @@ Example:
 swap  # Stack: [2, 1]
 ```
 
+- `nil`: Inserts a null value into the stack.
+
+Example:
+
+```beremiz
+1 2   # Stack: [1, 2]
+nil   # Stack: [1, 2, nil]
+```
+
 - `dumpstack`: Dumps the current stack trace for debugging purposes. This operation don't consume the stack.
 
 Example:
@@ -243,14 +252,19 @@ Examples:
 
 - `>`: Checks if the second top item is greater than the top item on the stack.
 - `=`: Checks if the top two items on the stack are equal and pushes a boolean result onto the stack.
+- `!=`: Checks if the top two items on the stack are different and pushes a boolean result onto the stack.
 
 Examples:
 
 ```beremiz
- 5  3 > show   # Output: true
- 2  3 > show   # Output: false
-10 10 = show   # Output: true
-10  5 = show   # Output: false
+ 5  3  > show   # Output: true
+ 2  3  > show   # Output: false
+
+10 10  = show   # Output: true
+10  5  = show   # Output: false
+
+10 10 != show   # Output: false
+10  5 != show   # Output: true
 ```
 
 ### Defining Constants and Functions
