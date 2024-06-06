@@ -129,12 +129,10 @@ function Lexer:extractString()
 		local c = self:peek()
 
 		if self:isAtEnd() then
-			local lines = Error.splitLines(self.content)
-
 			Error.show(
 				"Error: Unclosed string.",
-				{loc={file=self.file, line=startLine, col=startCol-1}},
-				lines
+				{loc=Loc(self.file, startLine, startCol+1)},
+				Error.splitLines(self.content)
 			)
 
 			break
