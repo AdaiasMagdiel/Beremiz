@@ -29,6 +29,7 @@ The name Beremiz is inspired by the character [Beremiz Samir](https://en.wikiped
     - [Defining Constants](#defining-constants)
     - [Defining Functions](#defining-functions)
     - [Example of Using Constants and Functions](#example-of-using-constants-and-functions)
+- [Running Tests](#running-tests)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -298,6 +299,14 @@ name            # Puts "Magdiel" on the stack
 half_age dupl   # Multiplies half_age by 2 and adds the result to the stack
 
 "Hi, I'm $1 and I have $0" show   # Output: "Hi, I'm Magdiel and I have 22"
+```
+
+## Running Tests
+
+This project uses [Leste](https://github.com/AdaiasMagdiel/Leste) for test cases. Ensure that [Leste](https://github.com/AdaiasMagdiel/Leste) is installed and run the tests with:
+
+```bash
+leste -vx
 ```
 
 ## Contributing
