@@ -20,6 +20,7 @@ local TokenType = {
 	DO         = "DO",
 	END        = "END",
 	DEFINE     = "DEFINE",
+	INCLUDE    = "INCLUDE",
 
 	DUP       = "DUP",
 	OVER      = "OVER",
