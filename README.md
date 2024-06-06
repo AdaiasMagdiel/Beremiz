@@ -168,6 +168,20 @@ Example:
 swap  # Stack: [2, 1]
 ```
 
+- `dumpstack`: Dumps the current stack trace for debugging purposes. This operation don't consume the stack.
+
+Example:
+
+```beremiz
+1 2
+
+dumpstack   # Output: [STACK]: [1, 2]
+
+swap
+
+dumpstack   # Output: [STACK]: [2, 1]
+```
+
 ### Displaying Data
 
 #### Showing Last Stack Element
