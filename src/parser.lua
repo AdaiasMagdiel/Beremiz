@@ -98,6 +98,10 @@ function Parser:parse()
 			push(self.stack, token.value)
 			ip = ip + 1
 
+		elseif token.type == TokenType.NIL then
+			push(self.stack, token.value)
+			ip = ip + 1
+
 		elseif token.type == TokenType.STRING then
 			-- Unlike Lua, string interpolations are 0-based
 			local pattern = "[^\\]?%$(%d+)"   -- Match $1, $42, $890, ... with escape \$
@@ -145,9 +149,10 @@ function Parser:parse()
 			token.type == TokenType.MINUS   or
 			token.type == TokenType.STAR    or
 			token.type == TokenType.SLASH   or
+			token.type == TokenType.MOD     or
 			token.type == TokenType.GREATER or
 			token.type == TokenType.EQUAL   or
-			token.type == TokenType.MOD
+			token.type == TokenType.NEQUAL
 		then
 			local b = pop(self.stack)
 			local a = pop(self.stack)
@@ -214,9 +219,6 @@ function Parser:parse()
 				    )
 				end
 
-			elseif token.type == TokenType.EQUAL then
-				push(self.stack, a == b)
-
 			elseif token.type == TokenType.MOD then
 				if type_a == "number" and type_b == "number" then
 					push(self.stack, a % b)
@@ -227,6 +229,13 @@ function Parser:parse()
 				    	self.lines
 				    )
 				end
+
+			elseif token.type == TokenType.EQUAL then
+				push(self.stack, a == b)
+
+			elseif token.type == TokenType.NEQUAL then
+				push(self.stack, a ~= b)
+
 			end
 
 		elseif token.type == TokenType.DUP then
@@ -240,7 +249,7 @@ function Parser:parse()
 			local cond = pop(self.stack)
 
 			if not cond then
-				ip = token.jump_ip
+				ip = token.jump_ip + 1
 			else
 				ip = ip + 1
 			end
