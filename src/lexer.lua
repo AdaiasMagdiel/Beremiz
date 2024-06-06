@@ -1,4 +1,5 @@
 local Error = require("src.error")
+local pprint = require("lib.pprint")
 
 local Tokens = require("src.token")
 local Token = Tokens.Token
@@ -225,6 +226,20 @@ function Lexer:scan()
 			self.line = self.line + 1
 			self.col = 1
 
+		-- Not Equal
+		elseif c == "!" then
+			if self:next() ~= "=" then
+				return
+			end
+
+			self.tokens[#self.tokens+1] = Token.new(
+				TokenType.NEQUAL,
+				"!=",
+				Loc(self.file, self.line, self.col)
+			)
+
+			self:consume() -- Remove !
+
 		-- Numbers
 		elseif	self.isNumber(c) or
 			(c == '.' and self.isNumber(self:next()))  -- numbers like: .2, .42
@@ -258,6 +273,8 @@ function Lexer:scan()
 			local value = self:extractIdentifier()
 
 			local identifiers = {
+				["nil"]   = TokenType.NIL,
+
 				["show"]   = TokenType.SHOW,
 				["if"]     = TokenType.IF,
 				["else"]   = TokenType.ELSE,
