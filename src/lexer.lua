@@ -79,12 +79,33 @@ end
 
 function Lexer:extractNumber()
 	local start = self.current
+	local minus = 0
+	local dot = 0
 
 	while true do
 		local c = self:peek()
 
 		if not Lexer.isNumber(c) then
-			if c ~= '.' and c ~= '_' then
+			if c == '.' then dot = dot + 1 end
+			if c == '-' then minus = minus + 1 end
+
+			if dot > 1 then
+				Error.show(
+					("Malformed number near '%s'."):format(self.content:sub(start, self.current+1)),
+					{loc=Loc(self.file, self.line, start)},
+					Error.splitLines(self.content)
+				)
+			end
+
+			if minus > 1 then
+				Error.show(
+					("Malformed number near '%s'."):format(self.content:sub(start, self.current+1)),
+					{loc=Loc(self.file, self.line, start)},
+					Error.splitLines(self.content)
+				)
+			end
+
+			if c ~= '.' and c ~= '_' and c ~= '-' then
 				break
 			end
 		end
@@ -242,7 +263,8 @@ function Lexer:scan()
 
 		-- Numbers
 		elseif	self.isNumber(c) or
-			(c == '.' and self.isNumber(self:next()))  -- numbers like: .2, .42
+			(c == '.' and self.isNumber(self:next())) or  -- numbers like: .2, .42
+			(c == '-' and self.isNumber(self:next()))     -- numbers like: -1, -15
 		then
 			local value = self:extractNumber()
 			self.tokens[#self.tokens+1] = Token.new(
