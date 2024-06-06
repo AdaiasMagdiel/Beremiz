@@ -105,17 +105,6 @@ Leste.it("assert that greather can be only used with numbers", function()
 	Assertions.assert(output:find("Error: Attempt to compare 'nil' with 'number'."))
 end)
 
-
--- EQUAL
-
-Leste.it("verify if equal can compare correctly", function()
-	local output = Utils.runProgram("2 2 = show")
-	Assertions.equal(output, "true")
-
-	local output = Utils.runProgram("3 2 = show")
-	Assertions.equal(output, "false")
-end)
-
 -- MOD
 
 Leste.it("verify if mod can be used with numbers", function()
@@ -135,4 +124,25 @@ Leste.it("assert that mod can be only used with numbers", function()
 
 	output = Utils.runProgram('2 % show')
 	Assertions.assert(output:find("Error: Attempt to mod a 'nil' with a 'number'."))
+end)
+
+
+-- EQUAL
+
+Leste.it("verify if equal can compare correctly", function()
+	local output = Utils.runProgram("2 2 = show")
+	Assertions.equal(output, "true")
+
+	local output = Utils.runProgram("3 2 = show")
+	Assertions.equal(output, "false")
+end)
+
+-- NOT EQUAL
+
+Leste.it("verify if not equal can compare correctly", function()
+	local output = Utils.runProgram("2 2 != show")
+	Assertions.equal(output, "false")
+
+	local output = Utils.runProgram("3 2 != show")
+	Assertions.equal(output, "true")
 end)
