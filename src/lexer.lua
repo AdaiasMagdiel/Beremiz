@@ -295,13 +295,14 @@ function Lexer:scan()
 			local identifiers = {
 				["nil"]   = TokenType.NIL,
 
-				["show"]   = TokenType.SHOW,
-				["if"]     = TokenType.IF,
-				["else"]   = TokenType.ELSE,
-				["while"]  = TokenType.WHILE,
-				["do"]     = TokenType.DO,
-				["end"]    = TokenType.END,
-				["define"] = TokenType.DEFINE,
+				["show"]    = TokenType.SHOW,
+				["if"]      = TokenType.IF,
+				["else"]    = TokenType.ELSE,
+				["while"]   = TokenType.WHILE,
+				["do"]      = TokenType.DO,
+				["end"]     = TokenType.END,
+				["define"]  = TokenType.DEFINE,
+				["include"] = TokenType.INCLUDE,
 
 				["dup"]       = TokenType.DUP,
 				["over"]      = TokenType.OVER,
