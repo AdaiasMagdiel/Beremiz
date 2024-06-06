@@ -29,6 +29,7 @@ The name Beremiz is inspired by the character [Beremiz Samir](https://en.wikiped
     - [Defining Constants](#defining-constants)
     - [Defining Functions](#defining-functions)
     - [Example of Using Constants and Functions](#example-of-using-constants-and-functions)
+  - [Including Files](#including-files)
 - [Running Tests](#running-tests)
 - [Contributing](#contributing)
 - [License](#license)
@@ -327,6 +328,16 @@ name            # Puts "Magdiel" on the stack
 half_age dupl   # Multiplies half_age by 2 and adds the result to the stack
 
 "Hi, I'm $1 and I have $0" show   # Output: "Hi, I'm Magdiel and I have 22"
+```
+
+### Including Files
+
+The `include` keyword allows you to include code from other files. This can be useful for organizing and reusing code across multiple files. When you use `include "path"`, it first searches for the file in the directory where the code is being executed. If the file is not found there, it then looks in the language's `includes` directory, where standard files like `std.brz` are located.
+
+Example:
+
+```beremiz
+include "path/to/file.brz"
 ```
 
 ## Running Tests
