@@ -1,6 +1,9 @@
 #  A program to calculate the factorial of 5.
 
-5 1
+define number 5 end
+define res 1 end
+
+number res
 
 while over 0 > do
     over *
@@ -8,5 +11,4 @@ while over 0 > do
     swap
 end
 
-swap drop
-show
+number "Factorial of $0 is $1" show
