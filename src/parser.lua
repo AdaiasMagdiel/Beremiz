@@ -298,6 +298,7 @@ function Parser:parse()
 		elseif token.type == TokenType.SHOW then
 			local value = pop(self.stack)
 			io.write(tostring(value), '\n')
+
 			ip = ip + 1
 
 		elseif token.type == TokenType.DEFINE then
