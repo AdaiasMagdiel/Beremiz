@@ -4,19 +4,19 @@ local Utils = require("tests.utils")
 
 -- PLUS
 
-Leste.it("possible to add numbers", function()
+Leste.it("should add numbers correctly", function()
 	local output = Utils.runProgram("1 1 + show")
 
 	Assertions.equal(output, "2")
 end)
 
-Leste.it("possible to concant strings", function()
+Leste.it("should concatenate strings correctly", function()
 	local output = Utils.runProgram('"a" "b" + show')
 
 	Assertions.equal(output, "ab")
 end)
 
-Leste.it("raise error if try to add number and not number", function()
+Leste.it("should raise error when adding a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" + show')
 	Assertions.assert(output:find("Error: Attempt to add a 'number' with a 'string'."))
 
@@ -29,13 +29,13 @@ end)
 
 -- MINUS
 
-Leste.it("possible to sub numbers", function()
+Leste.it("should subtract numbers correctly", function()
 	local output = Utils.runProgram("2 1 - show")
 
 	Assertions.equal(output, "1")
 end)
 
-Leste.it("raise error if try to sub number and not number", function()
+Leste.it("should raise error when subtracting a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" - show')
 	Assertions.assert(output:find("Error: Attempt to sub a 'number' with a 'string'."))
 
@@ -48,13 +48,13 @@ end)
 
 -- STAR
 
-Leste.it("possible to mul numbers", function()
+Leste.it("should multiply numbers correctly", function()
 	local output = Utils.runProgram("2 1 * show")
 
 	Assertions.equal(output, "2")
 end)
 
-Leste.it("raise error if try to mul number and not number", function()
+Leste.it("should raise error when multiplying a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" * show')
 	Assertions.assert(output:find("Error: Attempt to mul a 'number' with a 'string'."))
 
@@ -67,13 +67,13 @@ end)
 
 -- SLASH
 
-Leste.it("possible to div numbers", function()
+Leste.it("should divide numbers correctly", function()
 	local output = Utils.runProgram("2 1 / show")
 
 	Assertions.equal(output, "2.0")
 end)
 
-Leste.it("raise error if try to div number and not number", function()
+Leste.it("should raise error when dividing a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" / show')
 	Assertions.assert(output:find("Error: Attempt to div a 'number' with a 'string'."))
 
@@ -86,7 +86,7 @@ end)
 
 -- GREATER
 
-Leste.it("verify if greather can be compare numbers", function()
+Leste.it("should compare numbers correctly using greater than", function()
 	local output = Utils.runProgram("2 2 > show")
 	Assertions.equal(output, "false")
 
@@ -94,7 +94,7 @@ Leste.it("verify if greather can be compare numbers", function()
 	Assertions.equal(output, "true")
 end)
 
-Leste.it("assert that greather can be only used with numbers", function()
+Leste.it("should raise error when comparing a number and a non-number using greater than", function()
 	local output = Utils.runProgram('2 "a" > show')
 	Assertions.assert(output:find("Error: Attempt to compare 'number' with 'string'."))
 
@@ -107,7 +107,7 @@ end)
 
 -- MOD
 
-Leste.it("verify if mod can be used with numbers", function()
+Leste.it("should calculate modulus correctly with numbers", function()
 	local output = Utils.runProgram("10 2 % show")
 	Assertions.equal(output, "0")
 
@@ -115,7 +115,7 @@ Leste.it("verify if mod can be used with numbers", function()
 	Assertions.equal(output, "1")
 end)
 
-Leste.it("assert that mod can be only used with numbers", function()
+Leste.it("should raise error when calculating modulus with a number and a non-number", function()
 	local output = Utils.runProgram('2 "a" % show')
 	Assertions.assert(output:find("Error: Attempt to mod a 'number' with a 'string'."))
 
@@ -129,7 +129,7 @@ end)
 
 -- EQUAL
 
-Leste.it("verify if equal can compare correctly", function()
+Leste.it("should compare equality correctly", function()
 	local output = Utils.runProgram("2 2 = show")
 	Assertions.equal(output, "true")
 
@@ -139,7 +139,7 @@ end)
 
 -- NOT EQUAL
 
-Leste.it("verify if not equal can compare correctly", function()
+Leste.it("should compare inequality correctly", function()
 	local output = Utils.runProgram("2 2 != show")
 	Assertions.equal(output, "false")
 
