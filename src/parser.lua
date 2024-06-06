@@ -1,5 +1,6 @@
 local pprint = require("lib.pprint")
 
+local Lexer = require("src.lexer")
 local Error = require("src.error")
 local Tokens = require("src.token")
 local TokenType = Tokens.TokenType
@@ -22,15 +23,99 @@ local function pop(stack)
 	return table.remove(stack, #stack)
 end
 
+local function readFile(filepath)
+	-- First: Verify in user local folder
+	local fp = io.open(filepath, "r")
+
+	if fp == nil then
+		-- Then: Verify in beremiz include folder
+		fp = io.open("includes/"..filepath, "r")
+
+		if fp == nil then
+			return nil
+		end
+	end
+
+	local content = fp:read("*a")
+	fp:close()
+
+	return content
+end
+
 function Parser:new(tokens, raw)
 	local obj = setmetatable({}, Parser)
 
 	obj.lines = Error.splitLines(raw)
 	obj.stack = {}
 	obj.defines = {}
-	obj.program = obj:crossref(tokens)
+
+	tokens = obj:include(tokens)
+	tokens = obj:crossref(tokens)
+
+	obj.program = tokens
 
 	return obj
+end
+
+function Parser:include(tokens)
+	local ip = 1
+
+	while true do
+		local token = tokens[ip]
+
+		if token.type == TokenType.EOF then
+			break
+		end
+
+		if token.type == TokenType.INCLUDE then
+			local token_path = tokens[ip+1]
+
+			-- Remove 'include'
+			table.remove(tokens, ip)
+
+			if token_path.type ~= TokenType.STRING then
+				Error.show(
+					("Expected 'string' but encountered a '%s'."):format(token_path.type:lower()),
+					token,
+					self.lines
+				)
+			end
+
+			local file_content = readFile(token_path.value)
+
+			if file_content == nil then
+				Error.show(
+					("Error: Could not find the file '%s'."):format(token_path.value),
+					token_path,
+					self.lines
+				)
+			end
+
+			-- Remove 'path'
+			table.remove(tokens, ip)
+
+			-- Lex to retrieve tokens
+			local lexer = Lexer:new(token_path.value, file_content)
+			lexer.debug = false
+			local include_tokens = lexer:scan()
+
+			-- Parse tokens to check errors
+			local parser = Parser:new(include_tokens, file_content)
+			parser:parse()
+
+			for _, tok in ipairs(include_tokens) do
+				if tok.type ~= TokenType.EOF then
+					table.insert(tokens, tok)
+				end
+			end
+
+			ip = ip - 1
+		end
+
+		ip = ip + 1
+	end
+
+	return tokens
 end
 
 function Parser:crossref(tokens)
@@ -331,6 +416,9 @@ function Parser:parse()
 
 			push(returns, ip+1)
 			ip = ipToJump
+
+		else
+			Error.show(("Not implemented: '%s'."):format(token.type), token, self.lines)
 
 		end
 	end
