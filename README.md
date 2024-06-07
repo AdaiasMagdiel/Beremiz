@@ -30,6 +30,11 @@ The name Beremiz is inspired by the character [Beremiz Samir](https://en.wikiped
     - [Defining Functions](#defining-functions)
     - [Example of Using Constants and Functions](#example-of-using-constants-and-functions)
   - [Including Files](#including-files)
+  - [Modules and Methods](#modules-and-methods)
+    - [Using Modules and Methods](#using-modules-and-methods)
+      - [Example:](#example)
+    - [String Module](#string-module)
+      - [Available Methods:](#available-methods)
 - [Running Tests](#running-tests)
 - [Contributing](#contributing)
 - [License](#license)
@@ -339,6 +344,39 @@ Example:
 ```beremiz
 include "path/to/file.brz"
 ```
+
+### Modules and Methods
+
+Beremiz supports the organization of functionalities into predefined modules, each containing various methods that can be used to manipulate data on the stack. A module is a logical grouping of related methods.
+
+#### Using Modules and Methods
+
+To use a method from a module, you first place the value on the stack and then call the method using the syntax `module.method`.
+
+##### Example:
+
+```beremiz
+"abc" string.upper show   # Output: ABC
+"JKL" string.lower show   # Output: jkl
+```
+
+#### String Module
+
+The `string` module provides methods for string manipulation.
+
+##### Available Methods:
+
+- **`upper`**: Converts the string on top of the stack to uppercase.
+  
+  ```beremiz
+  "hello" string.upper show   # Output: HELLO
+  ```
+
+- **`lower`**: Converts the string on top of the stack to lowercase.
+  
+  ```beremiz
+  "WORLD" string.lower show   # Output: world
+  ```
 
 ## Running Tests
 
