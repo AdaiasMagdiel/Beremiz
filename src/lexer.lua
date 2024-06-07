@@ -178,7 +178,8 @@ function Lexer:extractIdentifier()
 		self:consume()
 	end
 
-	local value = self.content:sub(start, self.current-1)
+	self.current = self.current - 1
+	local value = self.content:sub(start, self.current)
 
 	return value
 end
@@ -236,7 +237,7 @@ function Lexer:scan()
 			self:consume() -- Remove !
 
 		-- Numbers
-		elseif	self.isNumber(c) or
+		elseif self.isNumber(c) or
 			(c == '.' and self.isNumber(self:next())) or  -- numbers like: .2, .42
 			(c == '-' and self.isNumber(self:next()))     -- numbers like: -1, -15
 		then
@@ -250,6 +251,14 @@ function Lexer:scan()
 			if self.debug then
 				io.write('Lexer->scan->isNumber(c): ', value, '\n')
 			end
+
+		-- Access (Methods)
+		elseif c == "." then
+			self.tokens[#self.tokens+1] = Token.new(
+				TokenType.ACCESS,
+				c,
+				Loc(self.file, self.line, self.col)
+			)
 
 		-- Strings
 		elseif c == '"' then
@@ -270,6 +279,8 @@ function Lexer:scan()
 
 			local identifiers = {
 				["nil"]   = TokenType.NIL,
+				["true"]  = TokenType.BOOL,
+				["false"] = TokenType.BOOL,
 
 				["show"]    = TokenType.SHOW,
 				["if"]      = TokenType.IF,
@@ -308,6 +319,7 @@ function Lexer:scan()
 		elseif c == "#" then
 			self:removeComments()
 
+		-- Operators
 		elseif
 			c == "+" or
 			c == "-" or
