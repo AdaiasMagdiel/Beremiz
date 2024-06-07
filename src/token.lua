@@ -2,6 +2,7 @@ local TokenType = {
 	NUMBER = "NUMBER",
 	STRING = "STRING",
 	NIL    = "NIL",
+	BOOL   = "BOOL",
 
 	PLUS    = "PLUS",
 	MINUS   = "MINUS",
@@ -27,6 +28,8 @@ local TokenType = {
 	DROP      = "DROP",
 	SWAP      = "SWAP",
 	DUMPSTACK = "DUMPSTACK",
+
+	ACCESS    = "ACCESS",
 
 	EOF = "EOF",
 }
