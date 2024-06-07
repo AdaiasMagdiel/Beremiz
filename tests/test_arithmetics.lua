@@ -18,13 +18,13 @@ end)
 
 Leste.it("should raise error when adding a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" + show')
-	Assertions.assert(output:find("Error: Attempt to add a 'number' with a 'string'."))
+	Assertions.assert(output:find("Attempt to add a 'number' with a 'string'."))
 
 	output = Utils.runProgram('1 1 2 = + show')
-	Assertions.assert(output:find("Error: Attempt to add a 'number' with a 'boolean'."))
+	Assertions.assert(output:find("Attempt to add a 'number' with a 'boolean'."))
 
 	output = Utils.runProgram('1 + show')
-	Assertions.assert(output:find("Error: Attempt to add a 'nil' with a 'number'."))
+	Assertions.assert(output:find("Attempt to add a 'nil' with a 'number'."))
 end)
 
 -- MINUS
@@ -37,13 +37,13 @@ end)
 
 Leste.it("should raise error when subtracting a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" - show')
-	Assertions.assert(output:find("Error: Attempt to sub a 'number' with a 'string'."))
+	Assertions.assert(output:find("Attempt to sub a 'number' with a 'string'."))
 
 	output = Utils.runProgram('1 1 2 = - show')
-	Assertions.assert(output:find("Error: Attempt to sub a 'number' with a 'boolean'."))
+	Assertions.assert(output:find("Attempt to sub a 'number' with a 'boolean'."))
 
 	output = Utils.runProgram('1 - show')
-	Assertions.assert(output:find("Error: Attempt to sub a 'nil' with a 'number'."))
+	Assertions.assert(output:find("Attempt to sub a 'nil' with a 'number'."))
 end)
 
 -- STAR
@@ -56,13 +56,13 @@ end)
 
 Leste.it("should raise error when multiplying a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" * show')
-	Assertions.assert(output:find("Error: Attempt to mul a 'number' with a 'string'."))
+	Assertions.assert(output:find("Attempt to mul a 'number' with a 'string'."))
 
 	output = Utils.runProgram('1 1 2 = * show')
-	Assertions.assert(output:find("Error: Attempt to mul a 'number' with a 'boolean'."))
+	Assertions.assert(output:find("Attempt to mul a 'number' with a 'boolean'."))
 
 	output = Utils.runProgram('1 * show')
-	Assertions.assert(output:find("Error: Attempt to mul a 'nil' with a 'number'."))
+	Assertions.assert(output:find("Attempt to mul a 'nil' with a 'number'."))
 end)
 
 -- SLASH
@@ -75,13 +75,13 @@ end)
 
 Leste.it("should raise error when dividing a number and a non-number", function()
 	local output = Utils.runProgram('1 "a" / show')
-	Assertions.assert(output:find("Error: Attempt to div a 'number' with a 'string'."))
+	Assertions.assert(output:find("Attempt to div a 'number' with a 'string'."))
 
 	output = Utils.runProgram('1 1 2 = / show')
-	Assertions.assert(output:find("Error: Attempt to div a 'number' with a 'boolean'."))
+	Assertions.assert(output:find("Attempt to div a 'number' with a 'boolean'."))
 
 	output = Utils.runProgram('1 / show')
-	Assertions.assert(output:find("Error: Attempt to div a 'nil' with a 'number'."))
+	Assertions.assert(output:find("Attempt to div a 'nil' with a 'number'."))
 end)
 
 -- GREATER
@@ -96,13 +96,13 @@ end)
 
 Leste.it("should raise error when comparing a number and a non-number using greater than", function()
 	local output = Utils.runProgram('2 "a" > show')
-	Assertions.assert(output:find("Error: Attempt to compare 'number' with 'string'."))
+	Assertions.assert(output:find("Attempt to compare 'number' with 'string'."))
 
 	output = Utils.runProgram('2 1 1 = > show')
-	Assertions.assert(output:find("Error: Attempt to compare 'number' with 'boolean'."))
+	Assertions.assert(output:find("Attempt to compare 'number' with 'boolean'."))
 
 	output = Utils.runProgram('2 > show')
-	Assertions.assert(output:find("Error: Attempt to compare 'nil' with 'number'."))
+	Assertions.assert(output:find("Attempt to compare 'nil' with 'number'."))
 end)
 
 -- MOD
@@ -117,13 +117,13 @@ end)
 
 Leste.it("should raise error when calculating modulus with a number and a non-number", function()
 	local output = Utils.runProgram('2 "a" % show')
-	Assertions.assert(output:find("Error: Attempt to mod a 'number' with a 'string'."))
+	Assertions.assert(output:find("Attempt to mod a 'number' with a 'string'."))
 
 	output = Utils.runProgram('2 1 1 = % show')
-	Assertions.assert(output:find("Error: Attempt to mod a 'number' with a 'boolean'."))
+	Assertions.assert(output:find("Attempt to mod a 'number' with a 'boolean'."))
 
 	output = Utils.runProgram('2 % show')
-	Assertions.assert(output:find("Error: Attempt to mod a 'nil' with a 'number'."))
+	Assertions.assert(output:find("Attempt to mod a 'nil' with a 'number'."))
 end)
 
 
