@@ -85,7 +85,7 @@ function Parser:include(tokens)
 
 			if file_content == nil then
 				Error.show(
-					("Error: Could not find the file '%s'."):format(token_path.value),
+					("Could not find the file '%s'."):format(token_path.value),
 					token_path,
 					self.lines
 				)
@@ -127,7 +127,7 @@ function Parser:crossref(tokens)
 
 			if tokenName.type ~= TokenType.IDENTIFIER then
 				Error.show(
-					("Expected 'identifier' but got '%s'."):format(tokenName.type:lower()),
+					("Syntax Error: Expected 'identifier' but encountered '%s'."):format(tokenName.type:lower()),
 					tokenName,
 					self.lines
 				)
@@ -142,7 +142,16 @@ function Parser:crossref(tokens)
 
 		elseif token.type == TokenType.ELSE then
 			local ip_if = pop(ip_stack)
-			tokens[ip_if].jump_ip = ip
+
+			if tokens[ip_if].type ~= TokenType.IF then
+				Error.show(
+					"Syntax Error: `ELSE` token encountered without preceding `IF` statement.",
+					tokens[ip],
+					self.lines
+				)
+			end
+
+			tokens[ip_if].jump_ip = ip+1
 
 			push(ip_stack, ip)
 
@@ -157,6 +166,14 @@ function Parser:crossref(tokens)
 
 			if tokens[ip_block].type == TokenType.DO then
 				local ip_while = pop(ip_stack)
+
+				if tokens[ip_while].type ~= TokenType.WHILE then
+					Error.show(
+						"Syntax Error: The `DO` token must appear immediately after a `WHILE` statement.",
+						tokens[ip],
+						self.lines
+					)
+				end
 
 				tokens[ip].jump_ip = ip_while
 			end
@@ -208,7 +225,7 @@ function Parser:parse()
 				local max = delims[#delims]
 				if max+1 > #self.stack then
 					Error.show(
-						("Error: Attempted to interpolate element at index %d, but the stack only contains %d elements."):format(max, #delims),
+						("Attempted to interpolate element at index %d, but the stack only contains %d elements."):format(max, #delims),
 						token,
 						self.lines
 					)
@@ -254,7 +271,7 @@ function Parser:parse()
 					push(self.stack, a .. b)
 				else
 					Error.show(
-				    	("Error: Attempt to add a '%s' with a '%s'."):format(type_a, type_b),
+				    	("Attempt to add a '%s' with a '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -265,7 +282,7 @@ function Parser:parse()
 					push(self.stack, a - b)
 				else
 					Error.show(
-				    	("Error: Attempt to sub a '%s' with a '%s'."):format(type_a, type_b),
+				    	("Attempt to sub a '%s' with a '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -276,7 +293,7 @@ function Parser:parse()
 					push(self.stack, a * b)
 				else
 					Error.show(
-				    	("Error: Attempt to mul a '%s' with a '%s'."):format(type_a, type_b),
+				    	("Attempt to mul a '%s' with a '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -287,7 +304,7 @@ function Parser:parse()
 					push(self.stack, a / b)
 				else
 					Error.show(
-				    	("Error: Attempt to div a '%s' with a '%s'."):format(type_a, type_b),
+				    	("Attempt to div a '%s' with a '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -298,7 +315,7 @@ function Parser:parse()
 					push(self.stack, a > b)
 				else
 					Error.show(
-				    	("Error: Attempt to compare '%s' with '%s'."):format(type_a, type_b),
+				    	("Attempt to compare '%s' with '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -309,7 +326,7 @@ function Parser:parse()
 					push(self.stack, a % b)
 				else
 					Error.show(
-				    	("Error: Attempt to mod a '%s' with a '%s'."):format(type_a, type_b),
+				    	("Attempt to mod a '%s' with a '%s'."):format(type_a, type_b),
 				    	token,
 				    	self.lines
 				    )
@@ -334,7 +351,7 @@ function Parser:parse()
 			local cond = pop(self.stack)
 
 			if not cond then
-				ip = token.jump_ip + 1
+				ip = token.jump_ip
 			else
 				ip = ip + 1
 			end
