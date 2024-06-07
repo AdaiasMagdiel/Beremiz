@@ -41,7 +41,7 @@ function Error.show(message, token, lines)
 	local lineCol = token.loc.col
 	local errorInfo = ("\x1b[31m%d:%d\x1b[0m | "):format(lineNum, lineCol)
 
-	local offset = 5
+	local offset = 6
 
 	local nextSpaceCol = getNextSpace(lineCol, line)
 	local under = ("~"):rep(#tostring(token.value or "_"))
