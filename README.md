@@ -353,13 +353,6 @@ Beremiz supports the organization of functionalities into predefined modules, ea
 
 To use a method from a module, you first place the value on the stack and then call the method using the syntax `module.method`.
 
-##### Example:
-
-```beremiz
-"abc" string.upper show   # Output: ABC
-"JKL" string.lower show   # Output: jkl
-```
-
 #### String Module
 
 The `string` module provides methods for string manipulation.
@@ -367,15 +360,49 @@ The `string` module provides methods for string manipulation.
 ##### Available Methods:
 
 - **`upper`**: Converts the string on top of the stack to uppercase.
+
+  **Usage**:
+
+  `"string" string.upper`
+
+  **Example**:
   
   ```beremiz
   "hello" string.upper show   # Output: HELLO
   ```
 
 - **`lower`**: Converts the string on top of the stack to lowercase.
+
+  **Usage**:
+
+  `"string" string.lower`
+
+  **Example**:
   
   ```beremiz
   "WORLD" string.lower show   # Output: world
+  ```
+
+- **`split`**: Splits the string on top of the stack by the specified separator and pushes the resulting substrings onto the stack in reverse order. This ensures the first part of the string is on the top of the stack.
+
+  **Usage**:
+
+  `"string" "separator" string.split`
+
+  ```beremiz
+  "hello world example" " " string.split
+  # Stack after execution: ["example", "world", "hello"]
+  ```
+
+  **Example**:
+
+  ```beremiz
+  "one,two,three" "," string.split
+  # Stack after execution: ["three", "two", "one"]
+
+  show   # Output: one
+  show   # Output: two
+  show   # Output: three
   ```
 
 ## Running Tests
