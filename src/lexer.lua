@@ -42,6 +42,11 @@ function Lexer:consume()
 	self.current = self.current + 1
 	self.col = self.col + 1
 
+	if char == "\n" then
+		self.line = self.line + 1
+		self.col = 1
+	end
+
 	return char
 end
 
@@ -138,11 +143,6 @@ function Lexer:extractString()
 			break
 		end
 
-		if c == "\n" then
-			self.line = self.line + 1
-			self.col = 1
-		end
-
 		if c == '"' then
 			if self:previous() ~= '\\' then
 				break
@@ -171,11 +171,6 @@ function Lexer:extractIdentifier()
 			break
 		end
 
-		if c == "\n" then
-			self.line = self.line + 1
-			self.col = 1
-		end
-
 		if not self.isAlphaNum(c) then
 			break
 		end
@@ -189,7 +184,6 @@ function Lexer:extractIdentifier()
 end
 
 function Lexer:removeComments()
-	-- os.exit(1)
 	self:consume()  -- Remove #
 
 	-- Multi-line
@@ -203,19 +197,9 @@ function Lexer:removeComments()
 				break
 			end
 
-			if c == "\n" then
-				self.line = self.line + 1
-				self.col = 1
-			end
-
 			if self:peek() == "]" and self:next() == "#" then
 				self:consume()
 				self:consume()
-
-				if self:peek() == "\n" then
-					self.line = self.line + 1
-					self.col = 1
-				end
 
 				break
 			end
@@ -230,9 +214,6 @@ function Lexer:removeComments()
 
 			self:consume()
 		end
-
-		self.line = self.line + 1
-		self.col = 1
 	end
 end
 
@@ -240,13 +221,8 @@ function Lexer:scan()
 	while not self:isAtEnd() do
 		local c = self:peek()
 
-		-- New Line
-		if c == "\n" then
-			self.line = self.line + 1
-			self.col = 1
-
 		-- Not Equal
-		elseif c == "!" then
+		if c == "!" then
 			if self:next() ~= "=" then
 				return
 			end
@@ -354,7 +330,7 @@ function Lexer:scan()
 			self.tokens[#self.tokens+1] = Token.new(
 				type,
 				c,
-				Loc(self.file, self.line, self.col-1)
+				Loc(self.file, self.line, self.col)
 			)
 
 			if self.debug then
