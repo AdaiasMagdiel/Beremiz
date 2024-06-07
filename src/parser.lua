@@ -143,7 +143,7 @@ function Parser:crossref(tokens)
 		elseif token.type == TokenType.ELSE then
 			local ip_if = pop(ip_stack)
 
-			if tokens[ip_if].type ~= TokenType.IF then
+			if ip_if == nil or tokens[ip_if].type ~= TokenType.IF then
 				Error.show(
 					"Syntax Error: `ELSE` token encountered without preceding `IF` statement.",
 					tokens[ip],
@@ -164,13 +164,26 @@ function Parser:crossref(tokens)
 		elseif token.type == TokenType.END then
 			local ip_block = pop(ip_stack)
 
+			if ip_block == nil or
+			   tokens[ip_block].type ~= TokenType.IF     and
+			   tokens[ip_block].type ~= TokenType.ELSE   and
+			   tokens[ip_block].type ~= TokenType.DEFINE and
+			   tokens[ip_block].type ~= TokenType.DO
+			then
+				Error.show(
+					"Syntax Error: The `END` token only can close `IF`, `ELSE`, `DEFINE` and `DO` tokens.",
+					tokens[ip],
+					self.lines
+				)
+			end
+
 			if tokens[ip_block].type == TokenType.DO then
 				local ip_while = pop(ip_stack)
 
-				if tokens[ip_while].type ~= TokenType.WHILE then
+				if ip_while == nil or tokens[ip_while].type ~= TokenType.WHILE then
 					Error.show(
 						"Syntax Error: The `DO` token must appear immediately after a `WHILE` statement.",
-						tokens[ip],
+						tokens[ip_block],
 						self.lines
 					)
 				end
