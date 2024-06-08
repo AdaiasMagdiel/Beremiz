@@ -85,8 +85,15 @@ function string_methods.split(stack, method_token, lines)
 
 	local parts = {}
 
-	for part in token.value:gmatch(("([^%s]+)"):format(separator.value)) do
-		table.insert(parts, 1, part)
+	if separator.value == "" then
+		for _, c in utf8.codes(token.value) do
+			table.insert(parts, 1, utf8.char(c))
+		end
+
+	else
+		for part in token.value:gmatch(("([^%s]+)"):format(separator.value)) do
+			table.insert(parts, 1, part)
+		end
 	end
 
 	for _, part in ipairs(parts) do
