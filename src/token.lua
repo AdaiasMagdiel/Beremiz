@@ -4,11 +4,13 @@ local TokenType = {
 	NIL    = "NIL",
 	BOOL   = "BOOL",
 
-	PLUS    = "PLUS",
-	MINUS   = "MINUS",
-	STAR    = "STAR",
-	SLASH   = "SLASH",
-	MOD     = "MOD",
+	PLUS  = "PLUS",
+	MINUS = "MINUS",
+	STAR  = "STAR",
+	SLASH = "SLASH",
+	MOD   = "MOD",
+	EXP   = "EXP",
+
 	GREATER = "GREATER",
 	EQUAL   = "EQUAL",
 	NEQUAL  = "NEQUAL",
