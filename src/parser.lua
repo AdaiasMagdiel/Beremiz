@@ -50,7 +50,8 @@ function Parser:new(tokens, raw)
 	obj.program = tokens
 
 	obj.env = {
-		["string"] = require("modules.string")
+		["string"] = require("modules.string"),
+		["math"] = require("modules.math")
 	}
 
 	return obj
@@ -269,7 +270,7 @@ function Parser:parse()
 
 				local values = {}
 				for _ = 1,max+1 do
-					values[#values+1] = utils.pop(self.stack)
+					values[#values+1] = utils.pop(self.stack).value
 				end
 
 				local newString = token.value:gsub(pattern,
@@ -290,6 +291,7 @@ function Parser:parse()
 			token.type == TokenType.PLUS    or
 			token.type == TokenType.MINUS   or
 			token.type == TokenType.STAR    or
+			token.type == TokenType.EXP    or
 			token.type == TokenType.SLASH   or
 			token.type == TokenType.MOD     or
 			token.type == TokenType.GREATER or
@@ -310,7 +312,9 @@ function Parser:parse()
 
 			ip = ip + 1
 
+			-- PLUS +
 			if token.type == TokenType.PLUS then
+				-- SUM
 				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
 					utils.push(self.stack, Token.new(
 						TokenType.NUMBER,
@@ -318,6 +322,7 @@ function Parser:parse()
 						token.loc
 					))
 
+				-- CONCAT
 				elseif a.type == TokenType.STRING and b.type == TokenType.STRING then
 					utils.push(self.stack, Token.new(
 						TokenType.STRING,
@@ -334,6 +339,7 @@ function Parser:parse()
 				    )
 				end
 
+			-- MINUS -
 			elseif token.type == TokenType.MINUS then
 				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
 					utils.push(self.stack, Token.new(
@@ -350,6 +356,7 @@ function Parser:parse()
 				    )
 				end
 
+			-- STAR *
 			elseif token.type == TokenType.STAR then
 				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
 					utils.push(self.stack, Token.new(
@@ -366,6 +373,24 @@ function Parser:parse()
 				    )
 				end
 
+			-- EXP **
+			elseif token.type == TokenType.EXP then
+				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
+					utils.push(self.stack, Token.new(
+						TokenType.NUMBER,
+						a.value ^ b.value,
+						token.loc
+					))
+
+				else
+					Error.show(
+				    	("Attempt to exp a '%s' with a '%s'."):format(a.type:lower(), b.type:lower()),
+				    	token,
+				    	self.lines
+				    )
+				end
+
+			-- SLASH /
 			elseif token.type == TokenType.SLASH then
 				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
 					utils.push(self.stack, Token.new(
@@ -382,22 +407,7 @@ function Parser:parse()
 				    )
 				end
 
-			elseif token.type == TokenType.GREATER then
-				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
-					utils.push(self.stack, Token.new(
-						TokenType.BOOL,
-						tostring(a.value > b.value),
-						token.loc
-					))
-
-				else
-					Error.show(
-				    	("Attempt to compare '%s' with '%s'."):format(a.type:lower(), b.type:lower()),
-				    	token,
-				    	self.lines
-				    )
-				end
-
+			-- MOD %
 			elseif token.type == TokenType.MOD then
 				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
 					utils.push(self.stack, Token.new(
@@ -414,6 +424,24 @@ function Parser:parse()
 				    )
 				end
 
+			-- GREATER >
+			elseif token.type == TokenType.GREATER then
+				if a.type == TokenType.NUMBER and b.type == TokenType.NUMBER then
+					utils.push(self.stack, Token.new(
+						TokenType.BOOL,
+						tostring(a.value > b.value),
+						token.loc
+					))
+
+				else
+					Error.show(
+				    	("Attempt to compare '%s' with '%s'."):format(a.type:lower(), b.type:lower()),
+				    	token,
+				    	self.lines
+				    )
+				end
+
+			-- EQUAL =
 			elseif token.type == TokenType.EQUAL then
 				utils.push(self.stack, Token.new(
 					TokenType.BOOL,
@@ -421,6 +449,7 @@ function Parser:parse()
 					token.loc
 				))
 
+			-- NOT EQUAL !=
 			elseif token.type == TokenType.NEQUAL then
 				utils.push(self.stack, Token.new(
 					TokenType.BOOL,
