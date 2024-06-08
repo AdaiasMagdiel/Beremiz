@@ -65,6 +65,25 @@ Leste.it("should raise error when multiplying a number and a non-number", functi
 	Assertions.assert(output:find("Expected 2 arguments for this operation"))
 end)
 
+-- EXP
+
+Leste.it("should exponentiate numbers correctly", function()
+	local output = Utils.runProgram("2 3 ** show")
+
+	Assertions.equal(output, "8.0")
+end)
+
+Leste.it("should raise error when exponentiate a number and a non-number", function()
+	local output = Utils.runProgram('1 "a" ** show')
+	Assertions.assert(output:find("Attempt to exp a 'number' with a 'string'."))
+
+	output = Utils.runProgram('1 1 2 = ** show')
+	Assertions.assert(output:find("Attempt to exp a 'number' with a 'bool'."))
+
+	output = Utils.runProgram('1 ** show')
+	Assertions.assert(output:find("Expected 2 arguments for this operation"))
+end)
+
 -- SLASH
 
 Leste.it("should divide numbers correctly", function()
