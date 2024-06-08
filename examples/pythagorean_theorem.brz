@@ -1,0 +1,17 @@
+define a 3 end
+define b 4 end
+
+# Accepts two numbers and computes the length of the hypotenuse
+define hypotenuse
+           # expect: a, b
+  dup *    # a, b * b
+  swap     # b*b, a
+  dup *    # b*b, a*a
+  +        # b*b + a*a
+  0.5 **   # (b*b + a*a) ** 0.5 - square root
+end
+
+a b
+hypotenuse
+
+show
