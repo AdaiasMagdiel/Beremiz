@@ -243,15 +243,17 @@ Example:
 - `*`: Multiplies the top two items on the stack.
 - `/`: Divides the second top item by the top item on the stack.
 - `%`: Computes the remainder of the division of the second top item by the top item on the stack.
+- `**`: Raises the second top item to the power of the top item on the stack.
 
 Examples:
 
 ```beremiz
- 5 3 + show   # Output: 8
-10 4 - show   # Output: 6
- 2 3 * show   # Output: 6
-10 2 / show   # Output: 5
-10 3 % show   # Output: 1
+ 5 3  + show   # Output: 8
+10 4  - show   # Output: 6
+ 2 3  * show   # Output: 6
+10 2  / show   # Output: 5.0
+10 3  % show   # Output: 1
+ 2 3 ** show   # Output: 8.0  (2 raised to the power of 3)
 ```
 
 #### Comparison Operations
@@ -383,7 +385,7 @@ The `string` module provides methods for string manipulation.
   "WORLD" string.lower show   # Output: world
   ```
 
-- **`split`**: Splits the string on top of the stack by the specified separator and pushes the resulting substrings onto the stack in reverse order. This ensures the first part of the string is on the top of the stack.
+- **`split`**: Splits the string on top of the stack by the specified separator and pushes the resulting substrings onto the stack in reverse order. This ensures the first part of the string is on the top of the stack. To split a string into individual characters, you can use an empty string as a separator.
 
   **Usage**:
 
@@ -404,6 +406,27 @@ The `string` module provides methods for string manipulation.
   show   # Output: two
   show   # Output: three
   ```
+
+#### Math Module
+
+The `math` module provides methods for math manipulation.
+
+##### Available Methods:
+
+- **`toint`**: Converts a valid string value in a number.
+
+  **Usage**:
+
+  `"value" math.toint`
+
+  **Example**:
+  
+  ```beremiz
+  "10" math.toint
+  5 + show          # Output: 15
+  ```
+
+
 
 ## Running Tests
 
