@@ -54,8 +54,9 @@ function math_methods.toint(stack, method_token, lines)
 	validateCount(1)
 
 	local token = utils.pop(ErrorInfo.stack)
-	local value = tonumber(token.value)
 
+	-- Just to verify if is a valid string
+	local value = tonumber(token.value)
 	if value == nil then
 		Error.show(
 			("Expected a string with a valid number value, not '%s'."):format(token.value),
@@ -64,7 +65,10 @@ function math_methods.toint(stack, method_token, lines)
 		)
 	end
 
-	applyMethod(token, tonumber)
+	applyMethod(token, function(value)
+		local num, _ = math.modf(tonumber(value))
+		return num
+	end)
 end
 
 return math_methods
