@@ -327,21 +327,35 @@ function Lexer:scan()
 			c == "/" or
 			c == ">" or
 			c == "=" or
-			c == "%"
+			c == "%" or
+			c == "*" and self:next() == "*"
 		then
 			local type = ({
-							["+"]=TokenType.PLUS,
-							["-"]=TokenType.MINUS,
-							["*"]=TokenType.STAR,
-							["/"]=TokenType.SLASH,
-							[">"]=TokenType.GREATER,
-							["="]=TokenType.EQUAL,
-							["%"]=TokenType.MOD,
-						})[c]
+			["+"]=TokenType.PLUS,
+			["-"]=TokenType.MINUS,
+			["/"]=TokenType.SLASH,
+			[">"]=TokenType.GREATER,
+			["="]=TokenType.EQUAL,
+			["%"]=TokenType.MOD,
+			})[c]
+
+			local value = c
+
+			if c == "*" then
+				-- Case: **
+				if self:next() == "*" then
+					type = TokenType.EXP
+					value = "**"
+					self:consume()
+
+				else
+					type = TokenType.STAR
+				end
+			end
 
 			self.tokens[#self.tokens+1] = Token.new(
 				type,
-				c,
+				value,
 				Loc(self.file, self.line, self.col)
 			)
 
