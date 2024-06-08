@@ -10,6 +10,7 @@ The name Beremiz is inspired by the character [Beremiz Samir](https://en.wikiped
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running Beremiz Code](#running-beremiz-code)
+  - [Example Files](#example-files)
 - [Documentation](#documentation)
   - [Comments](#comments)
     - [Single Line Comments](#single-line-comments)
@@ -69,7 +70,13 @@ There are two ways to run Beremiz code:
   lua main.lua [file]
   ```
 
-You can find some example files in the `examples` folder to get started.
+### Example Files
+
+You can find several example files in the `examples` folder to help you get started. Here are some key examples:
+
+- [**Factorial**](./examples/factorial.brz): A program that calculates the factorial of a number.
+- [**Pythagorean Theorem**](./examples/pythagorean_theorem.brz): Demonstrates the calculation of the hypotenuse in a right-angled triangle using the Pythagorean theorem.
+- [**Quadratic Equation**](./examples/quadratic_equation.brz): Solves quadratic equations and finds their roots.
 
 ## Documentation
 
