@@ -1,0 +1,45 @@
+define quadratic
+# Expect: [a, b, c] to be defined
+
+4 a c * *         # Stack: 4*a*c
+b 2 **            # Stack: 4*a*c, b**2
+swap -            # Stack: (b**2 - 4*a*c)
+
+0 over > if       # Stack: (b**2 - 4*a*c), 0 > (b**2 - 4*a*c)
+	"There's no real root." show
+else
+	0 over = if   # Stack: (b**2 - 4*a*c), 0 == (b**2 - 4*a*c)
+		0.5 **    # Stack: sqrt(b**2 - 4*a*c)
+		b -1 *    # Stack: sqrt(b**2 - 4*a*c), -b
+		swap +    # Stack: -b + sqrt(b**2 - 4*a*c)
+
+		a 2 *     # Stack: -b + sqrt(b**2 - 4*a*c), 2*a
+		/         # Stack: (-b + sqrt(b**2 - 4*a*c)) / 2*a
+
+		"Root: $0" show
+	else
+		0.5 **     # Stack: sqrt(b**2 - 4*a*c)
+		b -1 *     # Stack: sqrt(b**2 - 4*a*c), -b
+		over over  # Stack: sqrt(b**2 - 4*a*c), -b, sqrt(b**2 - 4*a*c), -b
+		swap -     # Stack: sqrt(b**2 - 4*a*c), -b, (-b - sqrt(b**2 - 4*a*c))
+		a 2 *      # Stack: sqrt(b**2 - 4*a*c), -b, (-b - sqrt(b**2 - 4*a*c)), 2*a
+		/          # Stack: sqrt(b**2 - 4*a*c), -b, ((-b - sqrt(b**2 - 4*a*c)) / 2*a)
+		"Root 1: $0" show
+
+		over over  # Stack: sqrt(b**2 - 4*a*c), -b, sqrt(b**2 - 4*a*c), -b
+		swap +     # Stack: sqrt(b**2 - 4*a*c), -b, (-b - sqrt(b**2 - 4*a*c))
+		a 2 *      # Stack: sqrt(b**2 - 4*a*c), -b, (-b - sqrt(b**2 - 4*a*c)), 2*a
+		/          # Stack: sqrt(b**2 - 4*a*c), -b, ((-b - sqrt(b**2 - 4*a*c)) / 2*a)
+		"Root 2: $0" show
+	end
+end
+end
+
+
+# You need to specify the args using the `define` keyword.
+# It's a way to define named arguments for a function.
+define a 1 end
+define b 5 end
+define c 6 end
+
+quadratic
