@@ -19,3 +19,9 @@ Leste.it("should show error for unclosed strings", function()
 
 	Assertions.assert(output:find("Unclosed string."))
 end)
+
+Leste.it("should handle string interpolation", function()
+	local output = Utils.runProgram('1 2 3 "values: $2, $1, $0" show')
+
+	Assertions.equal(output, "values: 1, 2, 3")
+end)
