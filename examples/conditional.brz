@@ -1,8 +1,35 @@
-1 1 +
-2 =
+# Simple IF statement
 
-if
-    "Equal" show
-else
-    "Not equal" show
+1 1 +
+
+if 2 = do
+    "1 + 1 is equal 2" show
 end
+
+# Simple IF and ELSE statement
+
+1 1 +
+
+if 3 = do
+    "1 + 1 is equal 3" show
+else
+    "1 + 1 is not equal 3" show
+end
+
+# IF, ELSE IF and ELSE example
+
+3
+
+if dup 1 = do
+    dup "The number is $0" show
+
+else if dup 2 = do
+    dup "The number is $0" show
+
+else if dup 3 = do
+    dup "The number is $0" show
+
+else
+    "None of these numbers." show
+    
+end end end  # Don't forgot tho close each IF block
