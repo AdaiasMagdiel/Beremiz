@@ -243,7 +243,7 @@ function Parser:parse()
 
 		elseif token.type == TokenType.STRING then
 			-- Unlike Lua, string interpolations are 0-based
-			local pattern = "[^\\]?%$(%d+)"   -- Match $1, $42, $890, ... with escape \$
+			local pattern = "[^\\]%$(%d+)"   -- Match $1, $42, $890, ... with escape \$
 
 			if not token.value:find(pattern) then
 				utils.push(self.stack, token)
@@ -262,7 +262,7 @@ function Parser:parse()
 				local max = delims[#delims]
 				if max+1 > #self.stack then
 					Error.show(
-						("Attempted to interpolate element at index %d, but the stack only contains %d elements."):format(max, #delims),
+						("Attempted to interpolate element at index %d, but the stack only contains %d elements."):format(max, #delims-1),
 						token,
 						self.lines
 					)
@@ -275,12 +275,12 @@ function Parser:parse()
 
 				local newString = token.value:gsub(pattern,
 				function(str)
-					return " " .. tostring(values[tonumber(str)+1])
+					return (" " .. tostring(values[tonumber(str)+1]))
 				end)
 
 				utils.push(self.stack, Token.new(
 					TokenType.STRING,
-					newString,
+					newString:gsub("\\%$", "$"),
 					token.loc
 				))
 			end
