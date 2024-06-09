@@ -3,7 +3,7 @@
 100
 
 while dup 0 > do
-    dup 2 % 0 = if
+    if dup 2 % 0 = do
         dup show
     end
 
