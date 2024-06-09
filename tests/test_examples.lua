@@ -11,7 +11,7 @@ end)
 Leste.it("test the conditional example", function()
 	local output = Utils.runFile("examples/conditional.brz")
 
-	Assertions.equal(output, "Equal")
+	Assertions.equal(output, "1 + 1 is equal 2\n1 + 1 is not equal 3\nThe number is 3")
 end)
 
 Leste.it("test the definitions example", function()
