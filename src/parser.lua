@@ -120,6 +120,8 @@ end
 
 function Parser:crossref(tokens)
 	local ip_stack = {}
+	local break_stack = {}
+	local inside_loop = false
 
 	for ip, token in ipairs(tokens) do
 		if token.type == TokenType.DEFINE then
@@ -189,7 +191,19 @@ function Parser:crossref(tokens)
 			utils.push(ip_stack, ip)
 
 		elseif token.type == TokenType.WHILE then
+			inside_loop = true
 			utils.push(ip_stack, ip)
+
+		elseif token.type == TokenType.BREAK then
+			if not inside_loop then
+				Error.show(
+					"`BREAK` only can be used inside `WHILE` loops.",
+					tokens[ip],
+					self.lines
+				)
+			end
+
+			utils.push(break_stack, ip)
 
 		elseif token.type == TokenType.DO then
 			local ip_while_or_if = utils.pop(ip_stack)
@@ -233,6 +247,16 @@ function Parser:crossref(tokens)
 
 					-- END receive the WHILE address
 					tokens[ip].jump_ip = ip_block
+
+					-- Exit loop
+					inside_loop = false
+
+					-- Get the first break token and
+					-- add address after the END
+					local break_token = utils.pop(break_stack)
+					if break_token ~= nil then
+						tokens[break_token].jump_ip = ip+1
+					end
 
 				-- For IF statement
 				elseif tokens[ip_block].type == TokenType.IF then
@@ -550,6 +574,17 @@ function Parser:parse()
 
 		elseif token.type == TokenType.WHILE then
 			ip = ip + 1
+
+		elseif token.type == TokenType.BREAK then
+			if token.jump_ip == nil then
+				Error.show(
+					"The `BREAK` token is missing a jump_ip reference. This may be due to a cross-reference error in the language parsing process. It's not your fault.",
+					token,
+					self.lines
+				)
+			end
+
+			ip = token.jump_ip
 
 		elseif token.type == TokenType.END then
 			local returnToIp = utils.pop(returns)

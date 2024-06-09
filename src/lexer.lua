@@ -286,6 +286,7 @@ function Lexer:scan()
 				["if"]      = TokenType.IF,
 				["else"]    = TokenType.ELSE,
 				["while"]   = TokenType.WHILE,
+				["break"]   = TokenType.BREAK,
 				["do"]      = TokenType.DO,
 				["end"]     = TokenType.END,
 				["define"]  = TokenType.DEFINE,
