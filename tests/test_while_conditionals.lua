@@ -13,17 +13,17 @@ end)
 -- CONDITIONALS
 
 Leste.it("should execute if statements correctly", function()
-	local output = Utils.runProgram('1 1 = if "equal" show end')
+	local output = Utils.runProgram('if 1 1 = do "equal" show end')
 	Assertions.equal(output, "equal")
 
-	output = Utils.runProgram('1 2 = if "equal" show end')
+	output = Utils.runProgram('if 1 2 = do "equal" show end')
 	Assertions.equal(output, "")
 end)
 
 Leste.it("should execute if-else statements correctly", function()
-	local output = Utils.runProgram('1 1 = if "equal" show else "not equal" show end')
+	local output = Utils.runProgram('if 1 1 = do "equal" show else "not equal" show end')
 	Assertions.equal(output, "equal")
 
-	output = Utils.runProgram('1 2 = if "equal" show else "not equal" show end')
+	output = Utils.runProgram('if 1 2 = do "equal" show else "not equal" show end')
 	Assertions.equal(output, "not equal")
 end)
