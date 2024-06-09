@@ -1,3 +1,6 @@
+local root_path = debug.getinfo(1, "S").source:sub(2):match("(.*[\\/])")
+package.path = ("%s;%s?.lua"):format(package.path, root_path)
+
 local pprint = require("lib.pprint")
 
 local Parser = require('src.parser')
@@ -5,7 +8,6 @@ local Lexer = require("src.lexer")
 
 
 local name = "Beremiz"
-local version = "0.0.1"
 local copyright = "Copyright (C) 2024 Adaías Magdiel"
 
 local usage = [[
@@ -16,7 +18,7 @@ Arguments:
 ]]
 
 local function runPrompt()
-	print(("%s %s  %s"):format(name, version, copyright))
+	print(("%s  %s"):format(name, copyright))
 
 	while true do
 		io.write('> ')
