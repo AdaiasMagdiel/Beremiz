@@ -50,8 +50,8 @@ function Parser:new(tokens, raw)
 	obj.program = tokens
 
 	obj.env = {
-		["string"] = require("modules.string"),
-		["math"] = require("modules.math")
+		["string"] = require("src.modules.string"),
+		["math"] = require("src.modules.math")
 	}
 
 	return obj
