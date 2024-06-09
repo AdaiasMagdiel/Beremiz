@@ -27,7 +27,7 @@ theme:
 
 nav:
   - Home: index.md
-  - Comments: documentation.md
+  - Comments: comments.md
   - Control Structures: control-structures.md
   - Stack Operations: stack-operations.md
   - Displaying Data: displaying-data.md
