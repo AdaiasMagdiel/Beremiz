@@ -29,10 +29,9 @@ specified conditions.
 Example:
 
 ```beremiz
-1 1 +  # Add 1 to 1 and push the result onto the stack
-2 =    # Check if the result (on the stack) is equal to 2
+1 1 +        # Add 1 to 1 and push the result onto the stack
 
-if
+if 2 = do    # Check if the result (on the stack) is equal to 2
     "Equal" show
 else
     "Not equal" show
