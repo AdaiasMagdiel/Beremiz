@@ -1,15 +1,19 @@
 # Control Structures
 
+In Beremiz, control structures such as while loops and if-else conditional
+structures enable you to manage the flow of execution within your code.
+
 ## While Loops
 
-The `while` loop allows the execution of a set of statements repeatedly as long as a condition is true.
+The `while` loop executes a set of statements repeatedly as long as a condition
+is true or not nil.
 
 Example:
 
 ```beremiz
 # Print all numbers between 0 and 10.
 
-10   # Put 10 on the stack
+10   # Push 10 onto the stack
 
 while dup 0 > do
     dup show
@@ -19,13 +23,14 @@ end
 
 ## If-Else Conditional Structures
 
-The `if-else` structure allows conditional execution of code blocks.
+The `if-else` structure allows conditional execution of code blocks based on
+specified conditions.
 
 Example:
 
 ```beremiz
-1 1 +  # Sum 1 plus 1 and put the result on the stack
-2 =    # Verify if the result (on the stack) is equal to 2 and add to the stack
+1 1 +  # Add 1 to 1 and push the result onto the stack
+2 =    # Check if the result (on the stack) is equal to 2
 
 if
     "Equal" show

@@ -4,7 +4,13 @@ The `string` module provides methods for string manipulation.
 
 ## Available Methods:
 
-### `upper`
+- [**`upper`**](#upper)
+- [**`lower`**](#lower)
+- [**`split`**](#split)
+
+---
+
+## `upper`
 
 Converts the string on top of the stack to uppercase.
 
@@ -20,7 +26,9 @@ Converts the string on top of the stack to uppercase.
 "hello" string.upper show   # Output: HELLO
 ```
 
-### `lower`
+---
+
+## `lower`
 
 Converts the string on top of the stack to lowercase.
 
@@ -36,9 +44,14 @@ Converts the string on top of the stack to lowercase.
 "WORLD" string.lower show   # Output: world
 ```
 
-### `split`
+---
 
-Splits the string on top of the stack by the specified separator and pushes the resulting substrings onto the stack in reverse order. This ensures the first part of the string is on the top of the stack. To split a string into individual characters, you can use an empty string as a separator.
+## `split`
+
+Splits the string on top of the stack by the specified separator and pushes the
+resulting substrings onto the stack in reverse order. This ensures the first
+part of the string is on the top of the stack. To split a string into individual
+characters, you can use an empty string as a separator.
 
 **Usage**:
 

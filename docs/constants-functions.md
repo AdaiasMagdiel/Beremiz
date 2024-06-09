@@ -1,30 +1,33 @@
 # Defining Constants and Functions
 
+In Beremiz, you can define constants and functions to enhance code readability
+and maintainability.
+
 ## Defining Constants
 
-Constants can be defined using the `define` keyword followed by the name of the constant, its value, and the `end` keyword.
+Constants are defined using the `define` keyword followed by the constant's
+name, its value, and the `end` keyword.
 
 Example:
 
 ```beremiz
-define name "Magdiel
-
-" end
+define name "Magdiel" end
 define age 22 end
 ```
 
-After defining, you can use these constants in your code.
+Once defined, these constants can be used throughout your code.
 
 Example:
 
 ```beremiz
-name   # Puts "Magdiel" on the stack
-age    # Puts 22 on the stack
+name   # Pushes "Magdiel" onto the stack
+age    # Pushes 22 onto the stack
 ```
 
 ## Defining Functions
 
-Functions can be defined using the `define` keyword followed by the name of the function, the function body, and the `end` keyword.
+Functions can be defined using the `define` keyword followed by the function's
+name, its body, and the `end` keyword.
 
 Example:
 
@@ -34,7 +37,7 @@ define dupl
 end
 ```
 
-After defining, you can use these functions in your code.
+After defining a function, you can utilize it within your code.
 
 Example:
 
@@ -44,7 +47,7 @@ Example:
 
 ## Example of Using Constants and Functions
 
-Combining constants and functions, you can create more complex expressions.
+By combining constants and functions, you can create more complex expressions.
 
 Example:
 
@@ -56,7 +59,7 @@ define dupl
     2 *
 end
 
-name            # Puts "Magdiel" on the stack
+name            # Pushes "Magdiel" onto the stack
 half_age dupl   # Multiplies half_age by 2 and adds the result to the stack
 
 "Hi, I'm $1 and I have $0" show   # Output: "Hi, I'm Magdiel and I have 22"

@@ -4,7 +4,11 @@ The `math` module provides methods for math manipulation.
 
 ## Available Methods:
 
-### `toint`
+- [**`toint`**](#toint)
+
+---
+
+## `toint`
 
 Converts a valid string value into a number.
 
