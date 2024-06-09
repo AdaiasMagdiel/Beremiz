@@ -44,6 +44,30 @@ while dup 0 > do
 end
 ```
 
+### Continue Statement
+
+The `continue` keyword is used to skip the current iteration of a `while` loop
+and proceed to the next iteration.
+
+Example:
+
+```beremiz
+# Print numbers from 10 to 1, but skip 5
+
+10   # Push 10 onto the stack
+
+while dup 0 > do
+    if dup 5 = do
+        1 -        # Decrement to avoid an infinite loop
+        continue   # Skip the rest of the loop when the number is 5
+    end
+
+    dup show
+
+    1 -
+end
+```
+
 ## If-Else Conditional Structures
 
 The `if-else` structure allows conditional execution of code blocks based on
