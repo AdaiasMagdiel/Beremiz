@@ -2,7 +2,7 @@ local string_methods = {}
 
 local Error = require("src.error")
 local utils = require("src.utils")
-local pprint = require("pprint")
+local pprint = require("lib.pprint")
 
 local Tokens = require("src.token")
 local Token = Tokens.Token
