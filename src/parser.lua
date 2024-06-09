@@ -161,17 +161,30 @@ function Parser:crossref(tokens)
 			utils.push(ip_stack, ip)
 
 		elseif token.type == TokenType.ELSE then
-			local ip_if = utils.pop(ip_stack)
+			local ip_block_do = utils.pop(ip_stack)
+			local ip_block_if = utils.pop(ip_stack)
 
-			if ip_if == nil or tokens[ip_if].type ~= TokenType.IF then
-				Error.show(
-					"Syntax Error: `ELSE` token encountered without preceding `IF` statement.",
+			if ip_block_do == nil or
+			   tokens[ip_block_do].type ~= TokenType.DO
+			then
+			   	Error.show(
+					"Syntax Error: expected a `IF-DO` statement to be used with `ELSE`.",
 					tokens[ip],
 					self.lines
 				)
 			end
 
-			tokens[ip_if].jump_ip = ip+1
+			if ip_block_if == nil or
+			   tokens[ip_block_if].type ~= TokenType.IF
+			then
+			   	Error.show(
+					"Syntax Error: `ELSE` only can be used with a `IF-DO` statement.",
+					tokens[ip],
+					self.lines
+				)
+			end
+
+			tokens[ip_block_do].jump_ip = ip+1
 
 			utils.push(ip_stack, ip)
 
@@ -179,39 +192,57 @@ function Parser:crossref(tokens)
 			utils.push(ip_stack, ip)
 
 		elseif token.type == TokenType.DO then
-			utils.push(ip_stack, ip)
+			local ip_while_or_if = utils.pop(ip_stack)
 
-		elseif token.type == TokenType.END then
-			local ip_block = utils.pop(ip_stack)
-
-			if ip_block == nil or
-			   tokens[ip_block].type ~= TokenType.IF     and
-			   tokens[ip_block].type ~= TokenType.ELSE   and
-			   tokens[ip_block].type ~= TokenType.DEFINE and
-			   tokens[ip_block].type ~= TokenType.DO
+			if ip_while_or_if == nil or
+			   tokens[ip_while_or_if].type ~= TokenType.IF and
+			   tokens[ip_while_or_if].type ~= TokenType.WHILE
 			then
 				Error.show(
-					"Syntax Error: The `END` token only can close `IF`, `ELSE`, `DEFINE` and `DO` tokens.",
+					"Syntax Error: `DO` only can be used with `IF` or `WHILE` statements.",
 					tokens[ip],
 					self.lines
 				)
 			end
 
-			if tokens[ip_block].type == TokenType.DO then
-				local ip_while = utils.pop(ip_stack)
+			utils.push(ip_stack, ip_while_or_if)
+			utils.push(ip_stack, ip)
 
-				if ip_while == nil or tokens[ip_while].type ~= TokenType.WHILE then
-					Error.show(
-						"Syntax Error: The `DO` token must appear immediately after a `WHILE` statement.",
-						tokens[ip_block],
-						self.lines
-					)
-				end
+		elseif token.type == TokenType.END then
+			local ip_block_to_close = utils.pop(ip_stack)
 
-				tokens[ip].jump_ip = ip_while
+			if ip_block_to_close == nil or
+			   tokens[ip_block_to_close].type ~= TokenType.DEFINE and
+			   tokens[ip_block_to_close].type ~= TokenType.DO     and
+			   tokens[ip_block_to_close].type ~= TokenType.ELSE
+			then
+				Error.show(
+					"Syntax Error: The `END` token only can close `DEFINE`, `IF-DO` and `WHILE-DO` statements.",
+					tokens[ip],
+					self.lines
+				)
 			end
 
-			tokens[ip_block].jump_ip = ip+1
+			if tokens[ip_block_to_close].type == TokenType.DO then
+				local ip_block = utils.pop(ip_stack)
+
+				-- For WHILE-loops
+				if tokens[ip_block].type == TokenType.WHILE then
+					-- DO receive the address of token after END
+					tokens[ip_block_to_close].jump_ip = ip+1
+
+					-- END receive the WHILE address
+					tokens[ip].jump_ip = ip_block
+
+				-- For IF statement
+				elseif tokens[ip_block].type == TokenType.IF then
+					-- DO receive the address of token after END
+					tokens[ip_block_to_close].jump_ip = ip+1
+
+				end
+			else
+				tokens[ip_block_to_close].jump_ip = ip+1
+			end
 		end
 	end
 
@@ -467,36 +498,17 @@ function Parser:parse()
 			ip = ip + 1
 
 		elseif token.type == TokenType.IF then
-			local token_cond = utils.pop(self.stack)
-
-			if token_cond == nil then
-				Error.show(
-					"Expected a 'boolean' type or 'nil'.",
-					token,
-					self.lines
-				)
-				return
-			end
-
-			if token_cond.type ~= TokenType.BOOL and
-			   token_cond.type ~= TokenType.NIL
-			then
-				Error.show(
-					("Expected to validate a 'boolean' type or 'nil', not '%s'."):format(token_cond.type:lower()),
-					token,
-					self.lines
-				)
-			end
-
-			if token_cond.value == "nil" or
-			   token_cond.value == "false"
-			then
-				ip = token.jump_ip
-			else
-				ip = ip + 1
-			end
+			ip = ip + 1
 
 		elseif token.type == TokenType.ELSE then
+			if token.jump_ip == nil then
+				Error.show(
+					"The `ELSE` token is missing a jump_ip reference. This may be due to a cross-reference error in the language parsing process. It's not your fault.",
+					token,
+					self.lines
+				)
+			end
+
 			ip = token.jump_ip
 
 		elseif token.type == TokenType.DO then
@@ -524,6 +536,13 @@ function Parser:parse()
 			if token_cond.value == "nil" or
 			   token_cond.value == "false"
 			then
+				if token.jump_ip == nil then
+					Error.show(
+						"The `DO` token is missing a jump_ip reference. This may be due to a cross-reference error in the language parsing process. It's not your fault.",
+						token,
+						self.lines
+					)
+				end
 				ip = token.jump_ip
 			else
 				ip = ip + 1
@@ -539,6 +558,13 @@ function Parser:parse()
 				ip = returnToIp
 
 			elseif token.jump_ip ~= nil then
+				if token.jump_ip == nil then
+					Error.show(
+						"The `END` token is missing a jump_ip reference. This may be due to a cross-reference error in the language parsing process. It's not your fault.",
+						token,
+						self.lines
+					)
+				end
 				ip = token.jump_ip
 
 			else
@@ -584,6 +610,13 @@ function Parser:parse()
 			ip = ip + 1
 
 		elseif token.type == TokenType.DEFINE then
+			if token.jump_ip == nil then
+				Error.show(
+					"The `DEFINE` token is missing a jump_ip reference. This may be due to a cross-reference error in the language parsing process. It's not your fault.",
+					token,
+					self.lines
+				)
+			end
 			ip = token.jump_ip
 
 		elseif token.type == TokenType.IDENTIFIER then
