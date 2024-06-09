@@ -1,9 +1,51 @@
 site_name: Beremiz Documentation
+site_url: https://adaiasmagdiel.github.io/Beremiz
+
+repo_url: https://github.com/AdaiasMagdiel/Beremiz
+repo_name: AdaiasMagdiel/Beremiz
+
+nav:
+  - Home: index.md
+  - Comments: comments.md
+  - Control Structures: control-structures.md
+  - Stack Operations: stack-operations.md
+  - Displaying Data: displaying-data.md
+  - Arithmetic and Comparison Operations: arithmetic-comparison.md
+  - Defining Constants and Functions: constants-functions.md
+  - Including Files: including.md
+  - Modules and Methods:
+      - String Module: modules/string-module.md
+      - Math Module: modules/math-module.md
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - git-committers:
+      repository: AdaiasMagdiel/Beremiz
+      branch: main
+
 theme:
+  favicon: images/favicon.png
+  
   name: material
 
   features:
     - content.code.copy
+
+  icon:
+    logo: octicons/stack-16
+    repo: fontawesome/brands/github
 
   palette:
 
@@ -24,27 +66,3 @@ theme:
         name: Switch to system preference
       primary: teal
       accent: deep purple
-
-nav:
-  - Home: index.md
-  - Comments: comments.md
-  - Control Structures: control-structures.md
-  - Stack Operations: stack-operations.md
-  - Displaying Data: displaying-data.md
-  - Arithmetic and Comparison Operations: arithmetic-comparison.md
-  - Defining Constants and Functions: constants-functions.md
-  - Including Files: including.md
-  - Modules and Methods:
-      - String Module: modules/string-module.md
-      - Math Module: modules/math-module.md
-markdown_extensions:
-  - toc:
-      permalink: true
-  - pymdownx.highlight:
-      anchor_linenums: true
-      linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences
