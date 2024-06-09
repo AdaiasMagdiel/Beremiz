@@ -25,3 +25,16 @@ Leste.it("should handle string interpolation", function()
 
 	Assertions.equal(output, "values: 1, 2, 3")
 end)
+
+Leste.it("should escape $n correctly", function()
+	local output = Utils.runProgram('1 2 "values: $1, $0 | Escape: \\$42" show')
+
+	Assertions.equal(output, "values: 1, 2 | Escape: $42")
+end)
+
+Leste.it("should show error for string interpolation overflow", function()
+	local output = Utils.runProgram('1 2 "values: $1, $0, $2" show')
+
+	Assertions.assert(output:find("Attempted to interpolate element at index"))
+	Assertions.assert(output:find("but the stack only contains 2 elements"))
+end)
