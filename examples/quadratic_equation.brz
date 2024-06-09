@@ -5,16 +5,16 @@ define quadratic
 b 2 **            # Stack: 4*a*c, b**2
 swap -            # Stack: (b**2 - 4*a*c)
 
-0 over > if       # Stack: (b**2 - 4*a*c), 0 > (b**2 - 4*a*c)
+if 0 over > do    # Stack: (b**2 - 4*a*c), 0 > (b**2 - 4*a*c)
 	"There's no real root." show
 else
-	0 over = if   # Stack: (b**2 - 4*a*c), 0 == (b**2 - 4*a*c)
-		0.5 **    # Stack: sqrt(b**2 - 4*a*c)
-		b -1 *    # Stack: sqrt(b**2 - 4*a*c), -b
-		swap +    # Stack: -b + sqrt(b**2 - 4*a*c)
+	if 0 over = do   # Stack: (b**2 - 4*a*c), 0 == (b**2 - 4*a*c)
+		0.5 **       # Stack: sqrt(b**2 - 4*a*c)
+		b -1 *       # Stack: sqrt(b**2 - 4*a*c), -b
+		swap +       # Stack: -b + sqrt(b**2 - 4*a*c)
 
-		a 2 *     # Stack: -b + sqrt(b**2 - 4*a*c), 2*a
-		/         # Stack: (-b + sqrt(b**2 - 4*a*c)) / 2*a
+		a 2 *        # Stack: -b + sqrt(b**2 - 4*a*c), 2*a
+		/            # Stack: (-b + sqrt(b**2 - 4*a*c)) / 2*a
 
 		"Root: $0" show
 	else
