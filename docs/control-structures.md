@@ -21,6 +21,29 @@ while dup 0 > do
 end
 ```
 
+### Break Statement
+
+The `break` keyword is used to immediately exit a `while` loop, regardless of
+the loop's condition.
+
+Example:
+
+```beremiz
+# Print numbers from 10 to 6, then exit the loop
+
+10   # Push 10 onto the stack
+
+while dup 0 > do
+    if dup 5 = do
+        break       # Exit the loop if the number is 5
+    end
+
+    dup show
+
+    1 -
+end
+```
+
 ## If-Else Conditional Structures
 
 The `if-else` structure allows conditional execution of code blocks based on
