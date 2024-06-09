@@ -21,6 +21,7 @@ local TokenType = {
 	ELSE       = "ELSE",
 	WHILE      = "WHILE",
 	BREAK      = "BREAK",
+	CONTINUE   = "CONTINUE",
 	DO         = "DO",
 	END        = "END",
 	DEFINE     = "DEFINE",
