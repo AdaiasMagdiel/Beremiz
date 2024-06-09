@@ -24,8 +24,11 @@ local function readFile(filepath)
 	local fp = io.open(filepath, "r")
 
 	if fp == nil then
+		local root_path = debug.getinfo(2, "S").source:sub(2):match("(.*[\\/])") .. ".."
+		local BRZ_INCLUDE_DIR = root_path .. "/includes/"
+
 		-- Then: Verify in beremiz include folder
-		fp = io.open("includes/"..filepath, "r")
+		fp = io.open(BRZ_INCLUDE_DIR .. filepath, "r")
 
 		if fp == nil then
 			return nil
