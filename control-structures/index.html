@@ -331,6 +331,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#continue-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continue Statement
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -582,6 +591,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#continue-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continue Statement
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -664,23 +682,55 @@ the loop's condition.</p>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>    1 -
 </span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>end
 </span></code></pre></div></td></tr></table></div>
+<h3 id="continue-statement">Continue Statement<a class="headerlink" href="#continue-statement" title="Permanent link">&para;</a></h3>
+<p>The <code>continue</code> keyword is used to skip the current iteration of a <code>while</code> loop
+and proceed to the next iteration.</p>
+<p>Example:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a># Print numbers from 10 to 1, but skip 5
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>10   # Push 10 onto the stack
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>while dup 0 &gt; do
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>    if dup 5 = do
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>        1 -        # Decrement to avoid an infinite loop
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>        continue   # Skip the rest of the loop when the number is 5
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>    end
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>    dup show
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>    1 -
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>end
+</span></code></pre></div></td></tr></table></div>
 <h2 id="if-else-conditional-structures">If-Else Conditional Structures<a class="headerlink" href="#if-else-conditional-structures" title="Permanent link">&para;</a></h2>
 <p>The <code>if-else</code> structure allows conditional execution of code blocks based on
 specified conditions.</p>
 <p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span>
-<span class="normal"><a href="#__codelineno-2-6">6</a></span>
-<span class="normal"><a href="#__codelineno-2-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>1 1 +        # Add 1 to 1 and push the result onto the stack
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>if 2 = do    # Check if the result (on the stack) is equal to 2
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    &quot;Equal&quot; show
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>else
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>    &quot;Not equal&quot; show
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>end
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>1 1 +        # Add 1 to 1 and push the result onto the stack
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>if 2 = do    # Check if the result (on the stack) is equal to 2
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    &quot;Equal&quot; show
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>else
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>    &quot;Not equal&quot; show
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>end
 </span></code></pre></div></td></tr></table></div>
 
 
