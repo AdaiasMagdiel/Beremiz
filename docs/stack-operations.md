@@ -66,3 +66,15 @@ efficiently manage data during program execution.
                 #             NUMBER: 1 (number)
 
     ```
+
+- **`exit`**: Exits the program with an status code and a optional message.
+
+    Example:
+
+    ```beremiz
+    # Simple exit with status 0
+    0 exit
+
+    # Exit with a status and message
+    1 "Error: File not found" exit
+    ```
