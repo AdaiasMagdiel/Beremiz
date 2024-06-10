@@ -16,6 +16,7 @@ nav:
   - Modules and Methods:
       - String Module: modules/string-module.md
       - Math Module: modules/math-module.md
+  - Language Reference: reference.md
 
 markdown_extensions:
   - toc:
