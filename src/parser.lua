@@ -685,6 +685,66 @@ function Parser:parse()
 			end
 			ip = token.jump_ip
 
+		elseif token.type == TokenType.EXIT then
+			local message = utils.pop(self.stack)
+			local status = utils.pop(self.stack)
+
+			if message == nil then
+				Error.show(
+					"Invalid use of the `EXIT` keyword. `EXIT` requires: `message (string), status (int)` or `status (int)` on the stack.",
+					token,
+					self.lines
+				)
+				return
+			end
+
+
+			-- If the first token is a number, then is the status
+			-- Call the exitProgram function for possible additional cleanups
+			if message.type == TokenType.NUMBER then
+				self:exitProgram(message)
+			end
+
+
+			-- Here, `message` is not a number, then, verify if is a
+			-- string to use as exit message
+
+			if message.type == TokenType.STRING then
+				-- Verify the `status` token
+				if status == nil then
+					Error.show(
+						"Invalid use of the `EXIT` keyword. You are trying to call `EXIT` with a message but without a status code.",
+						token,
+						self.lines
+					)
+					return
+				end
+
+
+				-- Raise a error if the `status` is not a number
+				if status.type ~= TokenType.NUMBER then
+					Error.show(
+						"Invalid use of the `EXIT` keyword. You are attempting to call `EXIT` with a status code that is not a number.",
+						status,
+						self.lines
+					)
+				end
+
+				self:exitProgram(status, message)
+			end
+
+
+			-- If `message_or_status` is not a number and not a string, so,
+			-- we have a error
+
+			Error.show(
+				"Invalid use of the `EXIT` keyword. `EXIT` requires: `message (string), status (int)` or `status (int)` on the stack.",
+				token,
+				self.lines
+			)
+
+			ip = ip+1
+
 		elseif token.type == TokenType.IDENTIFIER then
 			-- Verify in self.defines
 			if self.defines[token.value] ~= nil then
@@ -765,6 +825,23 @@ function Parser:parse()
 
 		end
 	end
+end
+
+function Parser:exitProgram(status_token, message_token)
+	-- Raise a error if the status code is a float
+	if math.type(status_token.value) == "float" then
+		Error.show(
+			("Invalid status code for `EXIT`. It requires a integer but got '%s'."):format(status_token.value),
+			status_token,
+			self.lines
+		)
+	end
+
+	if message_token ~= nil then
+		io.stderr:write(string.format("%s\n", message_token.value))
+	end
+
+	os.exit(status_token.value)
 end
 
 return Parser

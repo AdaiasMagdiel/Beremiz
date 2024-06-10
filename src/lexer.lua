@@ -292,6 +292,7 @@ function Lexer:scan()
 				["end"]      = TokenType.END,
 				["define"]   = TokenType.DEFINE,
 				["include"]  = TokenType.INCLUDE,
+				["exit"]     = TokenType.EXIT,
 
 				["dup"]       = TokenType.DUP,
 				["over"]      = TokenType.OVER,
