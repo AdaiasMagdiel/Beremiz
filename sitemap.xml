@@ -36,6 +36,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://adaiasmagdiel.github.io/Beremiz/reference/</loc>
+         <lastmod>2024-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://adaiasmagdiel.github.io/Beremiz/stack-operations/</loc>
          <lastmod>2024-06-10</lastmod>
          <changefreq>daily</changefreq>
