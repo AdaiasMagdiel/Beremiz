@@ -14,6 +14,8 @@ local TokenType = {
 	GREATER = "GREATER",
 	EQUAL   = "EQUAL",
 	NEQUAL  = "NEQUAL",
+	AND     = "AND",
+	OR      = "OR",
 
 	IDENTIFIER = "IDENTIFIER",
 	SHOW       = "SHOW",
