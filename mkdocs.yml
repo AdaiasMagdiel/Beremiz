@@ -8,6 +8,7 @@ nav:
   - Home: index.md
   - Comments: comments.md
   - Control Structures: control-structures.md
+  - Conditional Execution: conditional-execution.md
   - Stack Operations: stack-operations.md
   - Displaying Data: displaying-data.md
   - Arithmetic and Comparison Operations: arithmetic-comparison.md

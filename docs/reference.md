@@ -5,15 +5,39 @@ This reference guide provides an overview of the syntax, operations, and modules
 ## Table of Contents
 
 - [Comments](#comments)
+  - [Single Line Comments](#single-line-comments)
+  - [Multi-line Comments](#multi-line-comments)
 - [Control Structures](#control-structures)
+  - [If-Else](#if-else)
+    - [Using `and` with `if`](#using-and-with-if)
+    - [Using `or` with `if`](#using-or-with-if)
+  - [Loop](#loop)
+    - [Using `and` with `while`](#using-and-with-while)
+    - [Using `or` with `while`](#using-or-with-while)
 - [Stack Operations](#stack-operations)
+  - [Basic Operations](#basic-operations)
+    - [Examples:](#examples)
 - [Displaying Data](#displaying-data)
+  - [Showing Last Stack Element](#showing-last-stack-element)
+  - [String Interpolation](#string-interpolation)
 - [Arithmetic and Comparison Operations](#arithmetic-and-comparison-operations)
+  - [Arithmetic Operations](#arithmetic-operations)
+    - [Examples:](#examples)
+  - [Comparison Operations](#comparison-operations)
+    - [Examples:](#examples)
 - [Defining Constants and Functions](#defining-constants-and-functions)
+  - [Defining Constants](#defining-constants)
+  - [Defining Functions](#defining-functions)
+    - [Example Usage:](#example-usage)
 - [Including Files](#including-files)
+  - [Including Other Files](#including-other-files)
 - [Modules](#modules)
-    - [String Module](#string-module)
-    - [Math Module](#math-module)
+  - [String Module](#string-module)
+    - [Methods](#methods)
+      - [Examples:](#examples)
+  - [Math Module](#math-module)
+    - [Methods](#methods)
+      - [Example:](#example)
 
 ## Comments
 
@@ -49,6 +73,34 @@ else
 end
 ```
 
+#### Using `and` with `if`
+
+The `and` operator executes the block if both conditions are true.
+
+```beremiz
+if true true and do
+    "true and true" show
+end
+
+if true false and do
+    "true and false" show
+end
+```
+
+#### Using `or` with `if`
+
+The `or` operator executes the block if at least one of the conditions is true.
+
+```beremiz
+if true true or do
+    "true or true" show
+end
+
+if true false or do
+    "true or false" show
+end
+```
+
 ### Loop
 
 Repeated execution based on a condition.
@@ -56,6 +108,48 @@ Repeated execution based on a condition.
 ```beremiz
 while condition do
     # Loop body
+end
+```
+
+#### Using `and` with `while`
+
+The `while` loop executes the block as long as both conditions are true.
+
+```beremiz
+5 10
+
+while
+    over 15 != 
+    over 15 !=
+    and
+do
+    over over " $0 and $1 are not equal 15" show
+
+    1 +
+    swap
+    1 +
+    swap
+end
+```
+
+#### Using `or` with `while`
+
+The `while` loop executes the block as long as at least one of the conditions is true.
+
+```beremiz
+5 10
+
+while
+    over -1 > 
+    over -1 >
+    or
+do
+    over over " $0 and $1 are positive" show
+
+    1 -
+    swap
+    1 -
+    swap
 end
 ```
 
