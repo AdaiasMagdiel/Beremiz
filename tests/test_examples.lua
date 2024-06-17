@@ -32,6 +32,12 @@ Leste.it("test the hello_world example", function()
 	Assertions.equal(output, "Hello, world!")
 end)
 
+Leste.it("test the include example", function()
+	local output = Utils.runFile("examples/include.brz")
+
+	Assertions.equal(output, "Values: 2, 1, 2, 1")
+end)
+
 Leste.it("test the pythagorean_theorem example", function()
 	local output = Utils.runFile("examples/pythagorean_theorem.brz")
 
