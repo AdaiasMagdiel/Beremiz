@@ -1,0 +1,7 @@
+include "std.brz"
+
+1 2
+
+dup2
+
+"Values: $0, $1, $2, $3" show
