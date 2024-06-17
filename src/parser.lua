@@ -19,28 +19,6 @@ local Parser = {
 Parser.__index = Parser
 Parser.debug = true
 
-local function readFile(filepath)
-	-- First: Verify in user local folder
-	local fp = io.open(filepath, "r")
-
-	if fp == nil then
-		local root_path = debug.getinfo(2, "S").source:sub(2):match("(.*[\\/])") .. ".."
-		local BRZ_INCLUDE_DIR = root_path .. "/includes/"
-
-		-- Then: Verify in beremiz include folder
-		fp = io.open(BRZ_INCLUDE_DIR .. filepath, "r")
-
-		if fp == nil then
-			return nil
-		end
-	end
-
-	local content = fp:read("*a")
-	fp:close()
-
-	return content
-end
-
 function Parser:new(tokens, raw)
 	local obj = setmetatable({}, Parser)
 
@@ -84,8 +62,18 @@ function Parser:include(tokens)
 				)
 			end
 
-			local file_content = readFile(token_path.value)
+			-- First verify in user local directory. 
+			local file_content = utils.readFile(token_path.value)
 
+			-- If it's not found, verify in language include directory.
+			if file_content == nil then
+				local root_path = debug.getinfo(2, "S").source:sub(2):match("(.*[\\/])") .. ".."
+				local BRZ_INCLUDE_DIR = root_path .. "/includes/"
+
+				file_content = utils.readFile(BRZ_INCLUDE_DIR .. token_path.value)
+			end
+
+			-- Raise a error if the file not exists.
 			if file_content == nil then
 				Error.show(
 					("Could not find the file '%s'."):format(token_path.value),
