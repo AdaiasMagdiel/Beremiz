@@ -8,6 +8,12 @@ Leste.it("test the arithmetics example", function()
 	Assertions.equal(output, "ab\n4\n2\n3\n2.0\n3\n8.0\ntrue\nfalse\ntrue\nfalse")
 end)
 
+Leste.it("test the and_or example", function()
+	local output = Utils.runFile("examples/and_or.brz")
+
+	Assertions.equal(output, "true and true\ntrue or true\ntrue or false\ntrue or nil\nfalse or true\nnil or true")
+end)
+
 Leste.it("test the conditional example", function()
 	local output = Utils.runFile("examples/conditional.brz")
 
