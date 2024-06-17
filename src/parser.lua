@@ -306,6 +306,60 @@ function Parser:parse()
 			utils.push(self.stack, token)
 			ip = ip + 1
 
+		elseif token.type == TokenType.AND or
+		       token.type == TokenType.OR then
+
+			if #self.stack < 2 then
+				Error.show(
+					("Expected %d arguments for this operation, but only found %d arguments on the stack."):
+					format(2, #self.stack),
+					token,
+					self.lines
+				)
+			end
+
+			local cond_b = utils.pop(self.stack)
+			local cond_a = utils.pop(self.stack)
+
+			if cond_a.type ~= TokenType.BOOL and
+			   cond_a.type ~= TokenType.NIL
+			then
+				Error.show(
+					("Expected a boolean value to compare, not '%s'."):
+					format(cond_a.type:lower()),
+					cond_a,
+					self.lines
+				)
+
+			elseif cond_b.type ~= TokenType.BOOL and
+				   cond_b.type ~= TokenType.NIL
+			then
+				Error.show(
+					("Expected a boolean value to compare, not '%s'."):
+					format(cond_b.type:lower()),
+					cond_b,
+					self.lines
+				)
+
+			else
+				local tobool = {["false"]=false, ["true"]=true, ["nil"]=false}
+
+				local value = nil
+				if token.type == TokenType.AND then
+					value = tobool[cond_a.value] and tobool[cond_b.value]
+				else
+					value = tobool[cond_a.value] or tobool[cond_b.value]
+				end
+
+				utils.push(self.stack, Token.new(
+					TokenType.BOOL,
+					tostring(value),
+					token.loc
+				))
+			end
+
+			ip = ip + 1
+
 		elseif token.type == TokenType.STRING then
 			-- Unlike Lua, string interpolations are 0-based
 			local pattern = "[^\\]%$(%d+)"   -- Match $1, $42, $890, ... with escape \$
