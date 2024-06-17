@@ -13,7 +13,7 @@ local Parser = {
 	stack = {},
 	lines = {},
 	defines = {},
-	env = {}
+	modules = {}
 }
 
 Parser.__index = Parser
@@ -30,7 +30,7 @@ function Parser:new(tokens, raw)
 	tokens = obj:crossref(tokens)
 	obj.program = tokens
 
-	obj.env = {
+	obj.modules = {
 		["string"] = require("src.modules.string"),
 		["math"] = require("src.modules.math")
 	}
@@ -137,7 +137,7 @@ function Parser:crossref(tokens)
 				)
 			end
 
-			if self.env[tokenName.value] ~= nil then
+			if self.modules[tokenName.value] ~= nil then
 				Error.show(
 					"You are trying to redefine the reserved keyword '%s'. " ..
 					("Reserved keywords are used by the language and cannot be changed."):
@@ -739,8 +739,8 @@ function Parser:parse()
 				utils.push(returns, ip+1)
 				ip = self.defines[token.value]
 
-			-- Verify in self.env
-			elseif self.env[token.value] ~= nil then
+			-- Verify in self.modules
+			elseif self.modules[token.value] ~= nil then
 				local nextToken = self.program[ip+1]
 
 				if nextToken == nil or nextToken.type ~= TokenType.ACCESS then
@@ -771,7 +771,7 @@ function Parser:parse()
 			local previousToken = self.program[ip-1]
 			local nextToken = self.program[ip+1]
 
-			-- module must exists and must be a identifier that exists in self.env
+			-- module must exists and must be a identifier that exists in self.modules
 			if previousToken == nil or previousToken.type ~= TokenType.IDENTIFIER then
 				Error.show(
 					"Expected module to access method.",
@@ -791,7 +791,7 @@ function Parser:parse()
 				return
 			end
 
-			module = self.env[previousToken.value]
+			module = self.modules[previousToken.value]
 			method = nextToken.value
 
 			-- Verify if module has method
