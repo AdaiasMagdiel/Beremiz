@@ -15,7 +15,7 @@ local Lexer = {
 	tokens  = {}
 }
 Lexer.__index = Lexer
-Lexer.debug = true
+Lexer.debug = false
 
 function Lexer:new(filepath, content)
 	local obj = setmetatable({}, Lexer)
