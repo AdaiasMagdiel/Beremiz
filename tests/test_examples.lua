@@ -2,16 +2,22 @@ local Leste = require("leste.leste")
 local Assertions = require("leste.assertions")
 local Utils = require("tests.utils")
 
-Leste.it("test the arithmetics example", function()
-	local output = Utils.runFile("examples/arithmetics.brz")
-
-	Assertions.equal(output, "ab\n4\n2\n3\n2.0\n3\n8.0\ntrue\nfalse\ntrue\nfalse")
-end)
-
 Leste.it("test the and_or example", function()
 	local output = Utils.runFile("examples/and_or.brz")
 
 	Assertions.equal(output, "true and true\ntrue or true\ntrue or false\ntrue or nil\nfalse or true\nnil or true")
+end)
+
+Leste.it("test the and_while example", function()
+	local output = Utils.runFile("examples/and_while.brz")
+
+	Assertions.equal(output, "10 and 5 are not equal 15\n 11 and 6 are not equal 15\n 12 and 7 are not equal 15\n 13 and 8 are not equal 15\n 14 and 9 are not equal 15")
+end)
+
+Leste.it("test the arithmetics example", function()
+	local output = Utils.runFile("examples/arithmetics.brz")
+
+	Assertions.equal(output, "ab\n4\n2\n3\n2.0\n3\n8.0\ntrue\nfalse\ntrue\nfalse")
 end)
 
 Leste.it("test the conditional example", function()
@@ -42,6 +48,12 @@ Leste.it("test the include example", function()
 	local output = Utils.runFile("examples/include.brz")
 
 	Assertions.equal(output, "Values: 2, 1, 2, 1")
+end)
+
+Leste.it("test the or_while example", function()
+	local output = Utils.runFile("examples/or_while.brz")
+
+	Assertions.equal(output, "10 and 5 are positive\n 9 and 4 are positive\n 8 and 3 are positive\n 7 and 2 are positive\n 6 and 1 are positive\n 5 and 0 are positive\n 4 and -1 are positive\n 3 and -2 are positive\n 2 and -3 are positive\n 1 and -4 are positive\n 0 and -5 are positive")
 end)
 
 Leste.it("test the pythagorean_theorem example", function()
