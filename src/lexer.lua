@@ -281,6 +281,8 @@ function Lexer:scan()
 				["nil"]   = TokenType.NIL,
 				["true"]  = TokenType.BOOL,
 				["false"] = TokenType.BOOL,
+				["and"] = TokenType.AND,
+				["or"] = TokenType.OR,
 
 				["show"]     = TokenType.SHOW,
 				["if"]       = TokenType.IF,
