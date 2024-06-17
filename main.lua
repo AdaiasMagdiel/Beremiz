@@ -29,7 +29,6 @@ local function runPrompt()
 		end
 
 		local lexer = Lexer:new("stdin", input)
-		lexer.debug = false
 		local tokens = lexer:scan()
 
 		local parser = Parser:new(tokens, input)
@@ -49,7 +48,6 @@ local function runFile(filepath)
 	file:close()
 
 	local lexer = Lexer:new(filepath, content)
-	lexer.debug = false
 	local tokens = lexer:scan()
 
 	local parser = Parser:new(tokens, content)
