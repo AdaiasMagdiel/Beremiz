@@ -9,15 +9,16 @@ local Token = Tokens.Token
 local TokenType = Tokens.TokenType
 
 local Parser = {
-	program = {},
+	tokens = {},
 	stack = {},
 	lines = {},
 	defines = {},
-	modules = {}
+	modules = {},
+	program = {}
 }
 
 Parser.__index = Parser
-Parser.debug = true
+Parser.debug = false
 
 function Parser:new(tokens, raw)
 	local obj = setmetatable({}, Parser)
@@ -25,10 +26,11 @@ function Parser:new(tokens, raw)
 	obj.lines = Error.splitLines(raw)
 	obj.stack = {}
 	obj.defines = {}
+	obj.program = {}
 
-	tokens = obj:include(tokens)
+	tokens = obj:resolve_includes(tokens)
 	tokens = obj:crossref(tokens)
-	obj.program = tokens
+	obj.tokens = tokens
 
 	obj.modules = {
 		["string"] = require("src.modules.string"),
@@ -38,7 +40,7 @@ function Parser:new(tokens, raw)
 	return obj
 end
 
-function Parser:include(tokens)
+function Parser:resolve_includes(tokens)
 	local ip = 1
 
 	while true do
@@ -286,7 +288,7 @@ function Parser:parse()
 	local returns = {}
 
 	while true do
-		local token = self.program[ip]
+		local token = self.tokens[ip]
 
 		if token.type == TokenType.EOF then
 			break
@@ -741,7 +743,7 @@ function Parser:parse()
 
 			-- Verify in self.modules
 			elseif self.modules[token.value] ~= nil then
-				local nextToken = self.program[ip+1]
+				local nextToken = self.tokens[ip+1]
 
 				if nextToken == nil or nextToken.type ~= TokenType.ACCESS then
 					Error.show(
@@ -768,8 +770,8 @@ function Parser:parse()
 
 			-- previousToken = module
 			-- nextToken = method
-			local previousToken = self.program[ip-1]
-			local nextToken = self.program[ip+1]
+			local previousToken = self.tokens[ip-1]
+			local nextToken = self.tokens[ip+1]
 
 			-- module must exists and must be a identifier that exists in self.modules
 			if previousToken == nil or previousToken.type ~= TokenType.IDENTIFIER then
