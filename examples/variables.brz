@@ -1,0 +1,5 @@
+42 magic set
+magic show   # Output: 42
+
+"don't panic!" magic set
+magic show   # Output: "don't panic!"
