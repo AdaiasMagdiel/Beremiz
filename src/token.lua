@@ -36,7 +36,9 @@ local TokenType = {
 	SWAP      = "SWAP",
 	DUMPSTACK = "DUMPSTACK",
 
-	ACCESS    = "ACCESS",
+	ACCESS = "ACCESS",
+
+	TABLE = "TABLE",
 
 	EOF = "EOF",
 }

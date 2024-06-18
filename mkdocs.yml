@@ -10,6 +10,7 @@ nav:
   - Control Structures: control-structures.md
   - Conditional Execution: conditional-execution.md
   - Stack Operations: stack-operations.md
+  - Data Types: data-types.md
   - Displaying Data: displaying-data.md
   - Arithmetic and Comparison Operations: arithmetic-comparison.md
   - Defining Constants and Functions: constants-functions.md

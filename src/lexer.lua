@@ -118,7 +118,7 @@ function Lexer:extractNumber()
 		self:consume()
 	end
 
-	local value = self.content:sub(start, self.current):gsub('_', '')
+	local value = self.content:sub(start, self.current):gsub('_', ''):gsub("%D$", "")
 
 	return tonumber(value)
 end
@@ -218,6 +218,125 @@ function Lexer:removeComments()
 	end
 end
 
+function Lexer:extractTable()
+	local startLine = self.line
+	local startCol = self.col
+	local data = {}
+
+	local function insert(token)
+		if data[#data] ~= "," and #data > 0 then
+			Error.show(
+				("Unexpected value '%s'.  Did you forget to separate your values with a comma?"):format(token.value),
+				token,
+				Error.splitLines(self.content)
+			)
+		end
+
+		table.remove(data, #data)
+		data[#data+1] = token
+	end
+
+	while true do
+		local c = self:peek()
+
+		if c == nil or self:isAtEnd() then
+			Error.show(
+				"Error: Unclosed table.",
+				{loc=Loc(self.file, startLine, startCol)},
+				Error.splitLines(self.content)
+			)
+		end
+
+		if self:peek() == "," then
+			if data[#data] == "," then
+				Error.show(
+					"Too many commas in table. Please separate values with a single comma.",
+					{loc=Loc(self.file, self.line, self.col)},
+					Error.splitLines(self.content)
+				)
+			end
+
+			data[#data+1] = ","
+		end
+
+		if self:peek() == '"' then
+			local value = self:extractString()
+			local token =  Token.new(
+				TokenType.STRING,
+				value,
+				Loc(self.file, self.line, self.col-#value)
+			)
+
+			insert(token)
+		end
+
+		if self.isNumber(self:peek()) or
+			(self:peek() == '.' and self.isNumber(self:next())) or
+			(self:peek() == '-' and self.isNumber(self:next()))
+		then
+			local value = self:extractNumber()
+			local token = Token.new(
+				TokenType.NUMBER,
+				value,
+				Loc(self.file, self.line, self.col)
+			)
+
+			insert(token)
+			self.current = self.current-1
+		end
+
+		if self.isAlpha(c) then
+			local type = nil
+			local value = self:extractIdentifier()
+
+			local identifiers = {
+				["nil"]   = TokenType.NIL,
+				["true"]  = TokenType.BOOL,
+				["false"] = TokenType.BOOL,
+
+				["show"] = TokenType.SHOW,
+				["exit"] = TokenType.EXIT,
+
+				["dup"]       = TokenType.DUP,
+				["over"]      = TokenType.OVER,
+				["drop"]      = TokenType.DROP,
+				["swap"]      = TokenType.SWAP,
+				["dumpstack"] = TokenType.DUMPSTACK,
+			}
+
+			if identifiers[value] ~= nil then
+				type = identifiers[value]
+			else
+				Error.show(
+					("Unexpected '%s' in a table."):format(value),
+					{loc=Loc(self.file, self.line, self.col-#value)},
+					Error.splitLines(self.content)
+				)
+			end
+
+			local token = Token.new(
+				type,
+				value,
+				Loc(self.file, self.line, self.col-#value)
+			)
+
+			insert(token)
+		end
+
+		if self:peek() == "]" then
+			break
+		end
+
+		self:consume()
+	end
+
+	if data[#data] == "," then
+		table.remove(data, #data)
+	end
+
+	return data
+end
+
 function Lexer:scan()
 	while not self:isAtEnd() do
 		local c = self:peek()
@@ -235,6 +354,17 @@ function Lexer:scan()
 			)
 
 			self:consume() -- Remove !
+
+		-- Tables
+		elseif c == "[" then
+			local startCol = self.current
+			local data = self:extractTable()
+
+			self.tokens[#self.tokens+1] = Token.new(
+				TokenType.TABLE,
+				data,
+				Loc(self.file, self.line, startCol)
+			)
 
 		-- Numbers
 		elseif self.isNumber(c) or
