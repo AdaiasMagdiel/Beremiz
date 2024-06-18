@@ -703,6 +703,7 @@ function Parser:parse()
 			ip = ip + 1
 
 		elseif token.type == TokenType.DUMPSTACK then
+			io.write(("DUMPSTACK from: %s:%d:%d\n"):format(token.loc.file, token.loc.line, token.loc.col))
 			io.write("[STACK]:\n")
 
 			for idx, token_ in ipairs(self.stack) do
