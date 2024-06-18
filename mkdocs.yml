@@ -18,6 +18,7 @@ nav:
   - Modules and Methods:
       - String Module: modules/string-module.md
       - Math Module: modules/math-module.md
+      - Table Module: modules/table-module.md
   - Language Reference: reference.md
 
 markdown_extensions:
