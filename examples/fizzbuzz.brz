@@ -1,0 +1,43 @@
+include "std.brz"
+
+define fizzbuzz
+    # Expect a number in stack
+
+    if
+        dup 3 % 0 =   # n ((n 3 %) 0 =)
+        over 5 % 0 =  # n
+        and
+    do
+        "FizzBuzz" show
+        drop
+
+    else if dup 3 % 0 = do # n
+        "Fizz" show
+        drop
+
+    else if dup 5 % 0 = do
+        "Buzz" show
+        drop
+
+    else
+        show
+
+    end end end
+end
+
+
+1 15   # counter, up to value
+
+dup
+"FizzBuzz up to: $0" show
+"----------------\n" show
+
+while dup2 1 + != do
+    swap 
+
+    dup fizzbuzz
+
+    1 +
+
+    swap
+end
