@@ -1,0 +1,7 @@
+define array
+    [1, 2, 3, "abacate", "banana", "caju", true, false, nil]
+end
+
+while array table.length 0 > do
+    array table.pop show
+end
