@@ -7,19 +7,18 @@ repo_name: AdaiasMagdiel/Beremiz
 nav:
   - Home: index.md
   - Comments: comments.md
-  - Control Structures: control-structures.md
-  - Conditional Execution: conditional-execution.md
   - Stack Operations: stack-operations.md
-  - Data Types: data-types.md
+  - Defining Variables, Constants and Functions: variables-constants-functions.md
   - Displaying Data: displaying-data.md
   - Arithmetic and Comparison Operations: arithmetic-comparison.md
-  - Defining Constants and Functions: constants-functions.md
+  - Conditional Execution: conditional-execution.md
+  - Control Structures: control-structures.md
+  - Data Types: data-types.md
   - Including Files: including.md
   - Modules and Methods:
       - String Module: modules/string-module.md
       - Math Module: modules/math-module.md
       - Table Module: modules/table-module.md
-  - Language Reference: reference.md
 
 markdown_extensions:
   - toc:
