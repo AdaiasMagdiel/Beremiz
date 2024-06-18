@@ -12,6 +12,7 @@ local Parser = {
 	tokens = {},
 	stack = {},
 	lines = {},
+	env = {},
 	defines = {},
 	modules = {},
 	program = {}
@@ -27,6 +28,7 @@ function Parser:new(tokens, raw)
 	obj.stack = {}
 	obj.defines = {}
 	obj.program = {}
+	obj.env = {}
 
 	tokens = obj:resolve_includes(tokens)
 	tokens = obj:crossref(tokens)
@@ -579,6 +581,14 @@ function Parser:parse()
 		elseif token.type == TokenType.DUP then
 			local value = utils.pop(self.stack)
 
+			if value == nil then
+				Error.show(
+					"Expected a value in the stack for the 'dup' operation, but the stack is empty.",
+					token,
+					self.lines
+				)
+			end
+
 			utils.push(self.stack, value)
 			utils.push(self.stack, value)
 			ip = ip + 1
@@ -683,6 +693,14 @@ function Parser:parse()
 			local a = utils.pop(self.stack)
 			local b = utils.pop(self.stack)
 
+			if a == nil or b == nil then
+				Error.show(
+					"Expected two values in the stack for the 'over' operation.",
+					token,
+					self.lines
+				)
+			end
+
 			utils.push(self.stack, b)
 			utils.push(self.stack, a)
 			utils.push(self.stack, b)
@@ -728,6 +746,15 @@ function Parser:parse()
 
 		elseif token.type == TokenType.SHOW then
 			local token_ = utils.pop(self.stack)
+
+			if token_ == nil then
+				Error.show(
+					"Expected a value to output, but the stack is empty.",
+					token,
+					self.lines
+				)
+				return
+			end
 
 			if token_.type ~= TokenType.TABLE then
 				io.write(tostring(token_.value), '\n')
@@ -818,8 +845,32 @@ function Parser:parse()
 			ip = ip+1
 
 		elseif token.type == TokenType.IDENTIFIER then
-			-- Verify in self.defines
-			if self.defines[token.value] ~= nil then
+			-- Verify if is a `set` action
+			local next_token = self.tokens[ip+1]
+
+			if next_token ~= nil and next_token.type == TokenType.SET then
+				local stack_token = utils.pop(self.stack)
+
+				if stack_token == nil then
+					Error.show(
+						"Expected a value in the stack and a identifier for the 'set' operation, but the stack only contains the identifier.",
+						next_token,
+						self.lines
+					)
+				end
+
+				self.env[token.value] = stack_token
+
+				-- Jump set token
+				ip = ip+2
+
+			-- Verify in the self.env
+			elseif self.env[token.value] ~= nil then
+				utils.push(self.stack, self.env[token.value])
+				ip = ip+1
+
+			-- Verify in the self.defines
+			elseif self.defines[token.value] ~= nil then
 				utils.push(returns, ip+1)
 				ip = self.defines[token.value]
 
