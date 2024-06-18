@@ -65,6 +65,7 @@ the calculation of the hypotenuse in a right-angled triangle using the
 Pythagorean theorem.
 - [**Quadratic Equation**](./examples/quadratic_equation.brz): Solves quadratic
 equations and finds their roots.
+- [**FizzBuzz**](./examples/fizzbuzz.brz): Implements the classic FizzBuzz problem, printing numbers from 1 to 15 but replacing multiples of 3 with "Fizz", multiples of 5 with "Buzz", and multiples of both with "FizzBuzz".
 
 ## Documentation
 
