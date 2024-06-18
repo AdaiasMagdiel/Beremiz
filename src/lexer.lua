@@ -285,7 +285,7 @@ function Lexer:extractTable()
 			self.current = self.current-1
 		end
 
-		if self.isAlpha(c) then
+		if self.isAlpha(self:peek()) then
 			local type = nil
 			local value = self:extractIdentifier()
 
