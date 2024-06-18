@@ -593,6 +593,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="length">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop" class="md-nav__link">
+    <span class="md-ellipsis">
+      pop
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -673,6 +697,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="length">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop" class="md-nav__link">
+    <span class="md-ellipsis">
+      pop
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -698,6 +746,7 @@
 <h2 id="available-methods">Available Methods:<a class="headerlink" href="#available-methods" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="#length"><strong><code>length</code></strong></a></li>
+<li><a href="#pop"><strong><code>pop</code></strong></a></li>
 </ul>
 <hr />
 <h2 id="length"><code>length</code><a class="headerlink" href="#length" title="Permanent link">&para;</a></h2>
@@ -708,6 +757,35 @@
 <p><strong>Example</strong>:</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>[1, 2, 3, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;] table.length show    # Output: 6
 </span></code></pre></div></td></tr></table></div>
+<p>This method retrieves the length of the table, which represents the count of elements it contains.</p>
+<h3 id="notes">Notes:<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The <code>length</code> method is useful for determining the size of the table before performing operations that depend on the number of elements.</li>
+<li>Empty tables return a length of 0.</li>
+</ul>
+<hr />
+<h2 id="pop"><code>pop</code><a class="headerlink" href="#pop" title="Permanent link">&para;</a></h2>
+<p>Removes and returns the last element from the table.</p>
+<p><strong>Usage</strong>:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>[1, 2, 3, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;] table.pop
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Example</strong>:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>define list
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>    [1, 2, 3, &quot;abacate&quot;, &quot;banana&quot;, &quot;caju&quot;, true, false, nil]
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>end
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>while list table.length 0 &gt; do
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>    list table.pop show
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>end
+</span></code></pre></div></td></tr></table></div>
+<p>In this example, the <code>pop</code> operation iteratively removes elements from the <code>list</code> until it is empty, displaying each removed element using <code>show</code>.
+```</p>
 
 
 
