@@ -55,7 +55,21 @@ function table_methods.length(stack, method_token, lines)
 end
 
 function table_methods.pop(stack, method_token, lines)
-	
+	ErrorInfo.stack = stack
+	ErrorInfo.lines = lines
+	ErrorInfo.method_token = method_token
+
+	validateCount(1)
+	local token = utils.pop(ErrorInfo.stack)
+	validateType(token)
+
+	local value = table.remove(token.value, #token.value)
+
+	utils.push(stack, Token.new(
+		value.type,
+		value.value,
+		token.loc
+	))
 end
 
 return table_methods
