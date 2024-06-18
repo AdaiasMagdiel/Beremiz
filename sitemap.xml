@@ -21,11 +21,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://adaiasmagdiel.github.io/Beremiz/constants-functions/</loc>
-         <lastmod>2024-06-18</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://adaiasmagdiel.github.io/Beremiz/control-structures/</loc>
          <lastmod>2024-06-18</lastmod>
          <changefreq>daily</changefreq>
@@ -46,12 +41,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://adaiasmagdiel.github.io/Beremiz/reference/</loc>
+         <loc>https://adaiasmagdiel.github.io/Beremiz/stack-operations/</loc>
          <lastmod>2024-06-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://adaiasmagdiel.github.io/Beremiz/stack-operations/</loc>
+         <loc>https://adaiasmagdiel.github.io/Beremiz/variables-constants-functions/</loc>
          <lastmod>2024-06-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
