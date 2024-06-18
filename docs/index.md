@@ -54,6 +54,7 @@ You can find several example files in the `examples` folder to help you get star
 - [**Factorial**](https://github.com/AdaiasMagdiel/Beremiz/blob/main/examples/factorial.brz): A program that calculates the factorial of a number.
 - [**Pythagorean Theorem**](https://github.com/AdaiasMagdiel/Beremiz/blob/main/examples/pythagorean_theorem.brz): Demonstrates the calculation of the hypotenuse in a right-angled triangle using the Pythagorean theorem.
 - [**Quadratic Equation**](https://github.com/AdaiasMagdiel/Beremiz/blob/main/examples/quadratic_equation.brz): Solves quadratic equations and finds their roots.
+- [**FizzBuzz**](./examples/fizzbuzz.brz): Implements the classic FizzBuzz problem, printing numbers from 1 to 15 but replacing multiples of 3 with "Fizz", multiples of 5 with "Buzz", and multiples of both with "FizzBuzz".
 
 ## Running Tests
 
