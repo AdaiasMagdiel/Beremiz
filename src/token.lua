@@ -37,6 +37,7 @@ local TokenType = {
 	DUMPSTACK = "DUMPSTACK",
 
 	ACCESS = "ACCESS",
+	SET    = "SET",
 
 	TABLE = "TABLE",
 
