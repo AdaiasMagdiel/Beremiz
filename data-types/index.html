@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://adaiasmagdiel.github.io/Beremiz/constants-functions/">
+        <link rel="canonical" href="https://adaiasmagdiel.github.io/Beremiz/data-types/">
       
       
-        <link rel="prev" href="../arithmetic-comparison/">
+        <link rel="prev" href="../stack-operations/">
       
       
-        <link rel="next" href="../including/">
+        <link rel="next" href="../displaying-data/">
       
       
       <link rel="icon" href="../images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Defining Constants and Functions - Beremiz Documentation</title>
+        <title>Data Types - Beremiz Documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#defining-constants-and-functions" class="md-skip">
+        <a href="#tables" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Defining Constants and Functions
+              Data Types
             
           </span>
         </div>
@@ -350,10 +350,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../data-types/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -362,6 +371,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -410,30 +420,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Defining Constants and Functions
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../constants-functions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -442,53 +432,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#defining-constants" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defining Constants
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#defining-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defining Functions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-of-using-constants-and-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example of Using Constants and Functions
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -637,41 +580,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#defining-constants" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defining Constants
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#defining-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Defining Functions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-of-using-constants-and-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example of Using Constants and Functions
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -688,62 +596,13 @@
   
 
 
-<h1 id="defining-constants-and-functions">Defining Constants and Functions<a class="headerlink" href="#defining-constants-and-functions" title="Permanent link">&para;</a></h1>
-<p>In Beremiz, you can define constants and functions to enhance code readability
-and maintainability.</p>
-<h2 id="defining-constants">Defining Constants<a class="headerlink" href="#defining-constants" title="Permanent link">&para;</a></h2>
-<p>Constants are defined using the <code>define</code> keyword followed by the constant's
-name, its value, and the <code>end</code> keyword.</p>
+<h1 id="tables">Tables<a class="headerlink" href="#tables" title="Permanent link">&para;</a></h1>
+<p>Tables can be created using square brackets <code>[]</code> to delimit elements, separated by commas <code>,</code>. Tables can contain elements of different types.</p>
 <p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>define name &quot;Magdiel&quot; end
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>define age 22 end
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>[1, 2, 3, &quot;avocado&quot;, &quot;banana&quot;, &quot;cashew&quot;, true, false, nil] show
 </span></code></pre></div></td></tr></table></div>
-<p>Once defined, these constants can be used throughout your code.</p>
-<p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
-<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>name   # Pushes &quot;Magdiel&quot; onto the stack
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>age    # Pushes 22 onto the stack
-</span></code></pre></div></td></tr></table></div>
-<h2 id="defining-functions">Defining Functions<a class="headerlink" href="#defining-functions" title="Permanent link">&para;</a></h2>
-<p>Functions can be defined using the <code>define</code> keyword followed by the function's
-name, its body, and the <code>end</code> keyword.</p>
-<p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>define dupl
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>    2 *
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>end
-</span></code></pre></div></td></tr></table></div>
-<p>After defining a function, you can utilize it within your code.</p>
-<p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>5 dupl   # Multiplies 5 by 2 and adds the result to the stack
-</span></code></pre></div></td></tr></table></div>
-<h2 id="example-of-using-constants-and-functions">Example of Using Constants and Functions<a class="headerlink" href="#example-of-using-constants-and-functions" title="Permanent link">&para;</a></h2>
-<p>By combining constants and functions, you can create more complex expressions.</p>
-<p>Example:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-4-10">10</a></span>
-<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>define name &quot;Magdiel&quot; end
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>define half_age 11 end
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>define dupl
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>    2 *
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>end
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>name            # Pushes &quot;Magdiel&quot; onto the stack
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>half_age dupl   # Multiplies half_age by 2 and adds the result to the stack
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>&quot;Hi, I&#39;m $1 and I have $0&quot; show   # Output: &quot;Hi, I&#39;m Magdiel and I have 22&quot;
-</span></code></pre></div></td></tr></table></div>
+<p>This will create a table with integers, strings, booleans, and nil values. The <code>show</code> keyword will display the table and remove it from the stack.</p>
+<p>Tables are useful for storing collections of data and can be manipulated using various stack operations.</p>
 
 
 
@@ -751,36 +610,6 @@ name, its body, and the <code>end</code> keyword.</p>
 
 
 
-
-  <aside class="md-source-file">
-    
-    
-    
-    
-      
-  <span class="md-source-file__fact">
-    
-      
-  <span class="md-icon" title="Contributors">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
-  </span>
-  <span>GitHub</span>
-
-    
-    <nav>
-      
-        <a href="https://github.com/AdaiasMagdiel" class="md-author" title="@AdaiasMagdiel">
-          
-          <img src="https://avatars.githubusercontent.com/u/22068596?v=4&size=72" alt="AdaiasMagdiel">
-        </a>
-      
-      
-      
-    </nav>
-  </span>
-
-    
-  </aside>
 
 
 
