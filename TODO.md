@@ -13,7 +13,20 @@ Removes the nth element from the stack and places it on top of the stack. Index 
 2 nthtop   # stack: 7, 9, 10, 8
 ```
 
-## Logical Operators
+## New Modules
 
-- **AND**: Performs a logical conjunction on two boolean values.
-- **OR**: Performs a logical disjunction on two boolean values.
+### stack module
+
+Useful for obtaining information about the current stack. The methods include:
+
+- `length`: Used to determine how many elements are in the stack. This can be used in functions to check and validate the argument count.
+
+```beremiz
+1 2 3
+
+stack.length show # output: 3
+
+if stack.length 4 != do
+	1 "Expected 4 arguments in the stack" exit
+end
+```
