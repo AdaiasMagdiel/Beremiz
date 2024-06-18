@@ -294,20 +294,17 @@ function Parser:parse()
 			break
 		end
 
-		if token.type == TokenType.NUMBER then
-			utils.push(self.stack, token)
-			ip = ip + 1
-
-		elseif token.type == TokenType.NIL then
-			utils.push(self.stack, token)
-			ip = ip + 1
-
-		elseif token.type == TokenType.BOOL then
+		if token.type == TokenType.NUMBER or
+		   token.type == TokenType.NIL    or
+		   token.type == TokenType.BOOL   or
+		   token.type == TokenType.TABLE
+		then
 			utils.push(self.stack, token)
 			ip = ip + 1
 
 		elseif token.type == TokenType.AND or
-		       token.type == TokenType.OR then
+		       token.type == TokenType.OR
+		then
 
 			if #self.stack < 2 then
 				Error.show(
@@ -706,7 +703,21 @@ function Parser:parse()
 			io.write("[STACK]:\n")
 
 			for idx, token_ in ipairs(self.stack) do
-				io.write("    ", token_.type, ": ", token_.value, " (", type(token_.value), ")")
+				if token_.type ~= TokenType.TABLE then
+					io.write("    ", token_.type, ": ", token_.value, " (", type(token_.value), ")")
+				else
+					io.write('    TABLE: [')
+
+					for idx, tk in ipairs(token_.value) do
+						io.write(tostring(tk.value))
+
+						if idx ~= #token_.value then
+							io.write(', ')
+						end
+					end
+
+					io.write(']\n')
+				end
 
 				io.write("\n")
 			end
@@ -715,7 +726,22 @@ function Parser:parse()
 
 		elseif token.type == TokenType.SHOW then
 			local token_ = utils.pop(self.stack)
-			io.write(tostring(token_.value), '\n')
+
+			if token_.type ~= TokenType.TABLE then
+				io.write(tostring(token_.value), '\n')
+			else
+				io.write('[')
+
+				for idx, tk in ipairs(token_.value) do
+					io.write(tostring(tk.value))
+
+					if idx ~= #token_.value then
+						io.write(', ')
+					end
+				end
+
+				io.write(']\n')
+			end
 
 			ip = ip + 1
 
