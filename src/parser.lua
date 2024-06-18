@@ -34,7 +34,8 @@ function Parser:new(tokens, raw)
 
 	obj.modules = {
 		["string"] = require("src.modules.string"),
-		["math"] = require("src.modules.math")
+		["math"] = require("src.modules.math"),
+		["table"] = require("src.modules.table"),
 	}
 
 	return obj
